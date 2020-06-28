@@ -1,0 +1,67 @@
+#!/usr/bin/php
+<?php
+
+require(__DIR__.'/../lib/iHTML.php');
+require __DIR__.'/vendor/autoload.php';
+
+use Ulrichsg\Getopt\Getopt;
+use Ulrichsg\Getopt\Option;
+
+( $getopt = new Getopt('r:o:p:') )->parse();
+
+$options  = $getopt->getOptions();
+$operands = $getopt->getOperands();
+
+/*
+
+Examples:
+
+
+ihtml template file [-o file]
+
+ihtml template -r "code" [-o file]
+
+ihtml template [-o file]
+CODE
+
+ihtml -p project
+
+
+*/
+
+
+if(isset($options['p']))
+	
+	execProject($options, $operands);
+	
+else
+
+	execCcs($options, $operands);
+
+
+
+function execProject($options, $operands)
+{
+
+	$pr = new iHTML\Project\Project($options['p']);
+	$pr->render($options['o']);
+
+}
+
+
+function execCcs($options, $operands)
+{
+
+	$document = new iHTML\Document\Document($operands[0]);
+	$ccs = new iHTML\Ccs\Ccs();
+
+	if(isset($operands[1]))
+		$ccs->setFile($operands[1]);
+	else
+		$ccs->setContent( isset($options['r']) ? $options['r'] : file_get_contents('php://stdin'), getcwd());
+	
+	$ccs->applyTo($document);
+	$document->render( isset($options['o']) ? $options['o'] : STDOUT );
+
+}
+

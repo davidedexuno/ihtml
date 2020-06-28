@@ -1,0 +1,10 @@
+{
+    "require": {
+        "sabberworm/php-css-parser": "*",
+        "symfony/dom-crawler": "^3.1",
+        "symfony/css-selector": "^3.1",
+        "masterminds/html5": "^2.2",
+        "erusev/parsedown": "^1.6",
+        "jbbcode/jbbcode": "^1.3"
+    }
+}
