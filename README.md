@@ -1,6 +1,34 @@
 # ihtml
 iHTML - incremental HTML
 
+A very experimental template engine (written in php so far)
+
+## Usage
+
+Applies ccs on template and outputs to file:
+```shell
+ihtml <template> <ccs> [-o <file>]
+```
+
+Applies code on template and outputs to file:
+```shell
+ihtml template -r "<code>" [-o file]
+```
+
+Applies stdin on template and outputs to file:
+```shell
+ihtml template [-o file]
+<CODE>
+```
+
+Compiles the project:
+```shell
+ihtml -p project
+```
+## Examples
+
+See examples/.
+
 ## Use cases
 * HTML Inheritance
 * Multilanguage support (site structure and labels system)
