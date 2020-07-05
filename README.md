@@ -29,14 +29,26 @@ ihtml -p project
 
 See examples/.
 
+## Advantages
+* One language for everything (se `use cases` below)
+* consistency with the rest of environment - one language everywhere, JAVASCRIPT, CSS AND HERE
+* No need one more (maybe) language, SELECTORS EVERYWHERE, DOM EVERYWHERE
+* Layout TOTALLY separated from code, a designer can manage the final html file
+* No need to prepare an HTML for integration
+* No need to prepare HTML for new block - inheritance is EVERYWHERE, customizability is EVERYWHERE
+* Better HTML files, more readable. "Lorem ipsum" is the way.
+
 ## Use cases
 * HTML Inheritance
-* Multilanguage support (site structure and labels system)
+* Multilanguage support (site multilanguage structure and labels system)
 * Site Structure (pages, sections, etc...)
-* Modularization (Separate ads, sidebar, ecc...)
+* Modularization (separate ads, sidebar, ecc...)
 * Template engines code injection (Twig, Smarty, etc...)
+* CMS (Markdown, BBcode, HTML, text plain, etc...)
+* Minify (WTF?!!)
 
 ## TODO
 * add ld+json navigation support
 * add url parts support (img[src], a[href], etc...)
+* move to a REAL html5 parser (like the Chrome one)
 
