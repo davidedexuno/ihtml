@@ -15,12 +15,12 @@ class Document extends Dom
 
 	function setTheme(string $theme)
 	{
-		$this->doc('body')->cclass('theme-a')->visibility(iHTML\QueryClass::VISIBLE);
+		$this->doc('body')->className('theme-a')->visibility(iHTML\QueryClass::VISIBLE);
 	}
 
 	function isLogged(bool $isLogged)
 	{
-		$this->doc('body')->cclass('is-logged')->visibility($isLogged ? iHTML\QueryClass::VISIBLE : iHTML\QueryClass::HIDDEN);
+		$this->doc('body')->className('is-logged')->visibility($isLogged ? iHTML\QueryClass::VISIBLE : iHTML\QueryClass::HIDDEN);
 	}
 }
 

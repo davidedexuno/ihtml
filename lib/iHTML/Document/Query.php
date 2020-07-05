@@ -91,7 +91,7 @@ class Query
 
 	}
 
-	function cclass($name, $value = null)
+	function className($name, $value = null)
 	{
 
 		if(func_num_args() == 1)

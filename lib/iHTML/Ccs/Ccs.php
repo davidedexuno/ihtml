@@ -258,7 +258,7 @@ class Ccs implements CcsInterface
 		$this->classRules = [
 			'visibility' => function($query, $name, $values) {
 				$values = $this->solveValues($values, ['visible' => QueryClass::VISIBLE, 'hidden' => QueryClass::HIDDEN]);
-				$query->cclass($name)->visibility(...$values);
+				$query->className($name)->visibility(...$values);
 			},
 			// 'white-space' =>
 		];

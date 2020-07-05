@@ -19,12 +19,12 @@ $document('footer')
 
 $document('.site-inner .content .entry-content')
 
-	->cclass('entry-content')->visibility( iHTML\QueryClass::HIDDEN )
-	->cclass('entry-content-2')->visibility( iHTML\QueryClass::VISIBLE )
-	->cclass('has-background')->visibility( iHTML\QueryClass::HIDDEN )
-	->cclass('has-background')->visibility( iHTML\QueryClass::VISIBLE )
-	->cclass('has-background', iHTML\QueryClass::VISIBLE ) // as visibility
-	->cclass('has-background', iHTML\QueryClass::HIDDEN ) // as visibility
+	->className('entry-content')->visibility( iHTML\QueryClass::HIDDEN )
+	->className('entry-content-2')->visibility( iHTML\QueryClass::VISIBLE )
+	->className('has-background')->visibility( iHTML\QueryClass::HIDDEN )
+	->className('has-background')->visibility( iHTML\QueryClass::VISIBLE )
+	->className('has-background', iHTML\QueryClass::VISIBLE ) // as visibility
+	->className('has-background', iHTML\QueryClass::HIDDEN ) // as visibility
 	->attr('itemprop')->content('itemprop-content')
 	->attr('data-href', 'string') // as content: 'string'
 	->attr('data-href', 'none') // as content: 'none'
