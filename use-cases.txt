@@ -1,6 +1,0 @@
-Ereditarietà (tra padre e figlio)
-Multilanguage (per struttura sito e per traduzione)
-Struttura del sito (pagine, sezioni, ecc...)
-Modularizzare interfaccia (Scorporare pubblicità, sidebar, ecc...)
-Smarty (& co.)
-
