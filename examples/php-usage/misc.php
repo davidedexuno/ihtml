@@ -4,7 +4,7 @@
 require(__DIR__.'/../lib/iHTML.php');
 
 
-$document = new iHTML\Document( __DIR__.'/example.html');
+$document = new iHTML\Document\Document( __DIR__.'/example.html');
 
 
 $document('.site-inner .entry-title')
