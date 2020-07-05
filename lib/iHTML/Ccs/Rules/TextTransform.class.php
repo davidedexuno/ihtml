@@ -1,4 +1,3 @@
-
 <?php
 
 namespace iHTML\Ccs\Rules;

@@ -3,6 +3,9 @@
 namespace iHTML\Ccs;
 
 use iHTML\Document\Document;
+use iHTML\Document\QueryAttr;
+use iHTML\Document\QueryClass;
+use iHTML\Document\QueryStyle;
 
 interface CcsInterface
 {

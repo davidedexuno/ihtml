@@ -1,6 +1,9 @@
 <?php
 
-namespace iHTML;
+namespace iHTML\Project;
+
+use iHTML\Document\Document;
+use iHTML\Ccs\Ccs;
 
 class Project
 {
