@@ -54,11 +54,9 @@ class Ccs implements CcsInterface
 	function setFile(string $file): CcsInterface
 	{
 
-		$file = realpath($file);
+		if(!realpath($file)) throw new \Exception('File `'.$file.'` not found.');
 
-		if(!$file) throw new \Exception('File `'.$file.'` not found.');
-
-		$this->file = $file;
+		$this->file = realpath($file);
 
 		$this->setContent( file_get_contents($file), dirname($file) );
 
