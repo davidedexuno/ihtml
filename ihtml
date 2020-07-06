@@ -7,7 +7,7 @@ require __DIR__.'/vendor/autoload.php';
 use Ulrichsg\Getopt\Getopt;
 use Ulrichsg\Getopt\Option;
 
-( $getopt = new Getopt('r:o:p:s::t::') )->parse();
+( $getopt = new Getopt('r:o:p:s::t:') )->parse();
 $options  = $getopt->getOptions();
 $operands = $getopt->getOperands();
 if(isset($options['s'])) {
