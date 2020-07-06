@@ -22,13 +22,13 @@ if(isset($options['s'])) {
 		print "  http://127.0.0.1:{$port}{$path}\n";
 	print "\n--\n\n";
 	$loop = React\EventLoop\Factory::create();
-	$server = new React\Http\Server( function (Psr\Http\Message\ServerRequestInterface $request) use ($paths) {
+	$server = new React\Http\Server( function (Psr\Http\Message\ServerRequestInterface $request) use ($project, $paths, $port) {
 		if( $request->getUri()->getPath() == '/') {
 			$body = '<html style="background:grey;"><body><style> ul, iframe {display:block;float:left;height:100%;} ul {width:200px;} iframe {width:1400px;}</style> <ul>';
 			foreach(array_keys($paths) as $path)
 				$body .= '<li><a href="'.$path.'" target="test">'.$path.'</a>';
 			$body .= '</ul> <iframe name="test" src="favicon.ico" style="background:white;"></iframe> </body> </html>';
-			print 'Rendered project page'."\n\n";
+			print 'Rendered project page'."\n";
 			return new React\Http\Response( 200, ['Content-Type' => 'text/html'], $body );
 		}
 
@@ -36,11 +36,11 @@ if(isset($options['s'])) {
 		{
 			$resource = $paths[ $request->getUri()->getPath() ];
 			list($html, $apply) = $resource;
-			$document = new iHTML\Document(  working_dir($project->getRoot(), $html)  );
-			$ccs = new iHTML\Ccs(  working_dir($project->getRoot(), $apply)  );
+			$document = new iHTML\Document\Document(  working_dir($project->getRoot(), $html)  );
+			$ccs = new iHTML\Ccs\Ccs(  working_dir($project->getRoot(), $apply)  );
 			$ccs->applyTo($document);
 			$body = $document->render();
-			print 'Rendered '.$path."\n\n";
+			print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
 			return new React\Http\Response( 200, ['Content-Type' => 'text/html'], $body );
 		}
 
