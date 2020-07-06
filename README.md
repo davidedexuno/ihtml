@@ -12,19 +12,25 @@ ihtml <template> <ccs> [-o <file>]
 
 Applies code on template and outputs to file:
 ```shell
-ihtml template -r "<code>" [-o file]
+ihtml <template> -r "<code>" [-o <file>]
 ```
 
 Applies stdin on template and outputs to file:
 ```shell
-ihtml template [-o file]
-<CODE>
+ihtml <template> [-o <file>]
+<code>
 ```
 
 Compiles the project:
 ```shell
-ihtml -p project
+ihtml -p <project> [-o <file>]
 ```
+
+Opens a server on a project:
+```shell
+ihtml -p <project> -s
+```
+
 ## Examples
 
 See examples/.
