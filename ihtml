@@ -1,0 +1,87 @@
+#!/usr/bin/php
+<?php
+
+require(__DIR__.'/../lib/iHTML.php');
+require __DIR__.'/vendor/autoload.php';
+
+use Ulrichsg\Getopt\Getopt;
+use Ulrichsg\Getopt\Option;
+
+( $getopt = new Getopt('r:o:p:s::') )->parse();
+$options  = $getopt->getOptions();
+$operands = $getopt->getOperands();
+if(isset($options['s'])) {
+	$project = $options['p'] ?? __DIR__;
+	$port = $options['s'] != 1 ? $options['s'] : 1337;
+	$project = new iHTML\Project\Project( $project );
+	$paths = [];
+	foreach($project->getTemplates() as $template)
+		$paths[ '/'.$template->output ] = [$template->html, $template->apply];
+	print 'Available paths:'."\n\n";
+	foreach(array_keys($paths) as $path)
+		print "  http://127.0.0.1:{$port}{$path}\n";
+	print "\n--\n\n";
+	$loop = React\EventLoop\Factory::create();
+	$server = new React\Http\Server( function (Psr\Http\Message\ServerRequestInterface $request) use ($paths) {
+		if( $paths[ $request->getUri()->getPath() ] == '/') {
+			$body = '<html style="background:grey;"><body><style> ul, iframe {display:block;float:left;height:100%;} ul {width:200px;} iframe {width:1400px;}</style> <ul>';
+			foreach(array_keys($paths) as $path)
+				$body .= '<li><a href="'.$path.'" target="test">'.$path.'</a>';
+			$body .= '</ul> <iframe name="test" src="favicon.ico" style="background:white;"></iframe> </body> </html>';
+			print 'Rendered project page'."\n\n";
+			return new React\Http\Response( 200, ['Content-Type' => 'text/html'], $body );
+		}
+
+		if( isset($paths[ $request->getUri()->getPath() ]) )
+		{
+			$resource = $paths[ $request->getUri()->getPath() ];
+			list($html, $apply) = $resource;
+			$document = new iHTML\Document(  working_dir($project->getRoot(), $html)  );
+			$ccs = new iHTML\Ccs(  working_dir($project->getRoot(), $apply)  );
+			$ccs->applyTo($document);
+			$body = $document->render();
+			print 'Rendered '.$path."\n\n";
+			return new React\Http\Response( 200, ['Content-Type' => 'text/html'], $body );
+		}
+
+		return new React\Http\Response( 404, ['Content-Type' => 'text/plain'], "404 - Page not found\n" );
+	} );
+	print 'Server loaded.'.PHP_EOL;
+	$socket = new React\Socket\Server($port, $loop);
+	$server->listen($socket);
+	print "Listening to http://127.0.0.1:{$port}...".PHP_EOL.PHP_EOL;
+	$loop->run();
+}
+elseif(isset($options['p'])) {
+	$project = $options['p'] ?? __DIR__;
+	$output = $options['o'] ?? __DIR__.'/'.basename($options['p']);
+	$pr = new iHTML\Project\Project( $project );
+	$pr->render( $output );
+}
+elseif(isset($operands[0]) && isset($operands[1])) {
+	$document = new iHTML\Document\Document($operands[0]);
+	$ccs = new iHTML\Ccs\Ccs();
+	$ccs->setFile($operands[1]);
+	$ccs->applyTo($document);
+	$document->render( $options['o'] ?? STDOUT );
+}
+elseif(isset($operands[0]) && isset($options['r'])) {
+	$document = new iHTML\Document\Document($operands[0]);
+	$ccs = new iHTML\Ccs\Ccs();
+	$ccs->setContent( $options['r'], getcwd());
+	$ccs->applyTo($document);
+	$document->render( $options['o'] ?? STDOUT );
+}
+elseif(isset($operands[0])) {
+	$document = new iHTML\Document\Document($operands[0]);
+	$ccs = new iHTML\Ccs\Ccs();
+	$ccs->setContent( file_get_contents('php://stdin'), getcwd());
+	$ccs->applyTo($document);
+	$document->render( $options['o'] ?? STDOUT );
+}
+else {
+
+	print 'Please, insert template file'."\n\n";
+
+}
+
