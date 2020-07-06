@@ -52,6 +52,8 @@ function execProject($options, $operands)
 function execCcs($options, $operands)
 {
 
+	if(!isset($operands[0])) { print 'Please, insert template file'."\n\n"; return; }
+
 	$document = new iHTML\Document\Document($operands[0]);
 	$ccs = new iHTML\Ccs\Ccs();
 
