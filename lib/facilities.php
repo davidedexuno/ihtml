@@ -146,4 +146,12 @@ function selectors_weight(string ...$selectors)
 		
 }
 
+function getMimetype($file)
+{
+	return [
+		'css' => 'text/css',
+		'js' => 'text/javascript',
+	][ pathinfo($file, PATHINFO_EXTENSION) ]
+	?? mime_content_type($file);
+}
 

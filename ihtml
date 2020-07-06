@@ -48,7 +48,7 @@ if(isset($options['s'])) {
 		if( file_exists($static.'/'.$request->getUri()->getPath()) )
 		{
 			print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
-			return new React\Http\Response( 200, ['Content-Type' => mime_content_type($static.'/'.$request->getUri()->getPath())], file_get_contents($static.'/'.$request->getUri()->getPath()) );
+			return new React\Http\Response( 200, ['Content-Type' => getMimetype($static.'/'.$request->getUri()->getPath())], file_get_contents($static.'/'.$request->getUri()->getPath()) );
 		}
 
 		print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";

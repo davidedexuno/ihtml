@@ -28,7 +28,7 @@ ihtml -p <project> [-o <file>]
 
 Opens a server on a project:
 ```shell
-ihtml -p <project> -s
+ihtml -p <project> -s [-t <static files dir>]
 ```
 
 ## Examples
