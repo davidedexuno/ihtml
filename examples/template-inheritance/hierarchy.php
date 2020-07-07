@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-require(__DIR__.'/../../lib/iHTML.php');
+require(__DIR__.'/../../src/iHTML.php');
 
 
 print __DIR__.'/hierarchy.ccs'."\n";
