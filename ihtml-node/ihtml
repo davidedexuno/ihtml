@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+
+(async () => {
+
+
+const parse5 = require('parse5');
+var fs = require('fs')
+var path = require('path')
+var Getopt = require('node-getopt')
+
+let opt = new Getopt([
+	['r' , ''                    , 'CCS code to execute',                                  ],
+	['o' , ''                    , 'Output (file or dir for projects)',                    ],
+	['p' , ''                    , 'Project mode. Indicates project dir (current on empty)'],
+	['s' , ''                    , 'Server mode. Indicates port (`1337` on empty)'         ],
+	['' , 'server[=PORT]'        , 'Server mode. Indicates port (`1337` on empty)'         ],
+	['t' , ''                    , 'option with argument',                                 ],
+	['h' , 'help'                , 'display this help'],
+	['v' , 'version'             , 'show version'     ]
+])
+.bindHelp()
+.parseSystem();
+
+console.info({argv: opt.argv, options: opt.options});
+
+if(opt.options.s) {
+	console.log('TODO');
+}
+else if(opt.options.p) {
+	console.log('TODO');
+}
+else if(opt.argv[0] && opt.argv[0]) {
+	console.log('TODO');
+}
+else if(opt.argv[0] && opt.options.r) {
+	console.log('TODO');
+}
+else if(opt.argv[0]) {
+	console.log('TODO');
+}
+
+
+})()
