@@ -4,12 +4,15 @@ namespace iHTML\Ccs\Rules;
 
 require_once dirname(__FILE__).'/IncrementalRule.abstract.php';
 
-class BorderRule extends IncrementalRule {
+class BorderRule extends IncrementalRule
+{
+    public static function rule(): string
+    {
+        return 'border';
+    }
 
-	static function rule(): string { return 'border'; }
-
-	protected static function method(): string { return 'border'; }
-	
+    protected static function method(): string
+    {
+        return 'border';
+    }
 }
-
-
