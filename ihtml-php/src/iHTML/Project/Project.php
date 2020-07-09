@@ -19,14 +19,15 @@ class Project
 		$project_dir = realpath($project);
 
 		// PROJECT VALIDATION
-		if(!$project_dir)                                                            throw new \Exception('Project not found.');
-		if(!is_dir($project_dir))                                                    throw new \Exception('Project is not a dir.');
-		if(!file_exists($project_dir.'/project.json'))                               throw new \Exception('Project file not found.');
+		if(!$project_dir)                              throw new \Exception('Project not found.');
+		if(!is_dir($project_dir))                      throw new \Exception('Project is not a dir.');
+		if(!file_exists($project_dir.'/project.json')) throw new \Exception('Project file not found.');
 
 		$project = json_decode(file_get_contents($project_dir.'/project.json'));
-		if(!$project)                                                                throw new \Exception('Malformed project file.');
-		if(empty($project->implicit) || !isset($project->templates))                 throw new \Exception('Malformed project file.');
-		if(!is_array($project->templates))                                           throw new \Exception('Malformed project file.');
+		if(!$project)                                  throw new \Exception('Malformed project file.');
+		if(empty($project->implicit))                  throw new \Exception('Malformed project file.');
+		if(!isset($project->templates))                throw new \Exception('Malformed project file.');
+		if(!is_array($project->templates))             throw new \Exception('Malformed project file.');
 
 		$this->root = $project_dir;
 
