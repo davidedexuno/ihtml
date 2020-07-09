@@ -21,7 +21,7 @@ if(isset($options['s'])) {
 	print "\n--\n\n";
 	$loop = React\EventLoop\Factory::create();
 	$server = new React\Http\Server( function (Psr\Http\Message\ServerRequestInterface $request) use ($project, $static, $port) {
-		if( $template = array_filter($project->getTemplates(), function($template) use ($request) { return '/'.$template->output == $request->getUri()->getPath(); })[0] ?? null )
+		if( $template = current(array_filter($project->getTemplates(), function($template) use ($request) { return '/'.$template->output == $request->getUri()->getPath(); })) ?? null )
 		{
 			$document = new iHTML\Document\Document(  working_dir($project->getRoot(), $template->html)  );
 			$ccs = new iHTML\Ccs\Ccs(  working_dir($project->getRoot(), $template->apply)  );
