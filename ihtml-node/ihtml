@@ -7,6 +7,8 @@ const parse5 = require('parse5');
 var fs = require('fs')
 var path = require('path')
 var Getopt = require('node-getopt')
+const http = require('http');
+var iHTML = require('./src/iHTML');
 
 let opt = new Getopt([
 	['r' , ''                    , 'CCS code to execute',                                  ],
@@ -24,7 +26,25 @@ let opt = new Getopt([
 console.info({argv: opt.argv, options: opt.options});
 
 if(opt.options.s) {
-	console.log('TODO');
+	let project = opt.options.p ?? __dirname;
+	let staticDir = opt.options.t ?? __dirname;
+	let port = opt.options.s || opt.options.server || 1337;
+	project = new iHTML.Project.Project( project );
+	console.log('Available paths:', '')
+	project.getTemplates().forEach(template =>
+		console.log(`  http://127.0.0.1:${port}/${template.output}`))
+	console.log("\n--\n");
+	http.createServer(function (req, res) {
+		if( template = project.getTemplates().find( template => '/' + template.output == request.getUri().getPath() ) )
+		{
+			document = new iHTML.Document.Document(  path.resolve(project.getRoot(), template.html)  );
+			ccs = new iHTML.Ccs.Ccs(  path.resolve(project.getRoot(), template.apply)  );
+			ccs.applyTo(document);
+			body = document.render();
+			console.log(`Rendered http://127.0.0.1:${port}${request.getUri().getPath()}`);
+			res.writeHead(200, {'Content-Type': 'text/html'}); res.write(body); res.end();
+		}
+	}).listen( port );
 }
 else if(opt.options.p) {
 	console.log('TODO');
