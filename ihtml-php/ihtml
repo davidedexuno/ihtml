@@ -7,75 +7,68 @@ require __DIR__.'/vendor/autoload.php';
 use Ulrichsg\Getopt\Getopt;
 use Ulrichsg\Getopt\Option;
 
-( $getopt = new Getopt('r:o:p:s::t:') )->parse();
+($getopt = new Getopt('r:o:p:s::t:'))->parse();
 $options  = $getopt->getOptions();
 $operands = $getopt->getOperands();
-if(isset($options['s'])) {
-	$project = $options['p'] ?? __DIR__;
-	$static = $options['t'] ?? __DIR__;
-	$port = $options['s'] != 1 ? $options['s'] : 1337;
-	$project = new iHTML\Project\Project( $project );
-	print 'Available paths:'."\n\n";
-	foreach($project->getTemplates() as $template)
-		print "  http://127.0.0.1:{$port}/{$template->output}\n";
-	print "\n--\n\n";
-	$loop = React\EventLoop\Factory::create();
-	$server = new React\Http\Server( function (Psr\Http\Message\ServerRequestInterface $request) use ($project, $static, $port) {
-		if( $template = current(array_filter($project->getTemplates(), function($template) use ($request) { return '/'.$template->output == $request->getUri()->getPath(); })) ?? null )
-		{
-			$document = new iHTML\Document\Document(  working_dir($project->getRoot(), $template->html)  );
-			$ccs = new iHTML\Ccs\Ccs(  working_dir($project->getRoot(), $template->apply)  );
-			$ccs->applyTo($document);
-			$body = $document->render();
-			print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
-			return new React\Http\Response( 200, ['Content-Type' => 'text/html'], $body );
-		}
+if (isset($options['s'])) {
+    $project = $options['p'] ?? __DIR__;
+    $static = $options['t'] ?? __DIR__;
+    $port = $options['s'] != 1 ? $options['s'] : 1337;
+    $project = new iHTML\Project\Project($project);
+    print 'Available paths:'."\n\n";
+    foreach ($project->getTemplates() as $template) {
+        print "  http://127.0.0.1:{$port}/{$template->output}\n";
+    }
+    print "\n--\n\n";
+    $loop = React\EventLoop\Factory::create();
+    $server = new React\Http\Server(function (Psr\Http\Message\ServerRequestInterface $request) use ($project, $static, $port) {
+        if ($template = current(array_filter($project->getTemplates(), function ($template) use ($request) {
+            return '/'.$template->output == $request->getUri()->getPath();
+        })) ?? null) {
+            $document = new iHTML\Document\Document(working_dir($project->getRoot(), $template->html));
+            $ccs = new iHTML\Ccs\Ccs(working_dir($project->getRoot(), $template->apply));
+            $ccs->applyTo($document);
+            $body = $document->render();
+            print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
+            return new React\Http\Response(200, ['Content-Type' => 'text/html'], $body);
+        }
 
-		if( file_exists($static.'/'.$request->getUri()->getPath()) )
-		{
-			print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
-			return new React\Http\Response( 200, ['Content-Type' => getMimetype($static.'/'.$request->getUri()->getPath())], file_get_contents($static.'/'.$request->getUri()->getPath()) );
-		}
+        if (file_exists($static.'/'.$request->getUri()->getPath())) {
+            print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
+            return new React\Http\Response(200, ['Content-Type' => getMimetype($static.'/'.$request->getUri()->getPath())], file_get_contents($static.'/'.$request->getUri()->getPath()));
+        }
 
-		print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
-		return new React\Http\Response( 404, ['Content-Type' => 'text/plain'], "404 - Page not found\n" );
-	} );
-	print 'Server loaded.'.PHP_EOL;
-	$socket = new React\Socket\Server($port, $loop);
-	$server->listen($socket);
-	print "Listening to http://127.0.0.1:{$port}...".PHP_EOL.PHP_EOL;
-	$loop->run();
+        print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
+        return new React\Http\Response(404, ['Content-Type' => 'text/plain'], "404 - Page not found\n");
+    });
+    print 'Server loaded.'.PHP_EOL;
+    $socket = new React\Socket\Server($port, $loop);
+    $server->listen($socket);
+    print "Listening to http://127.0.0.1:{$port}...".PHP_EOL.PHP_EOL;
+    $loop->run();
+} elseif (isset($options['p'])) {
+    $project = $options['p'] ?? __DIR__;
+    $output = $options['o'] ?? __DIR__.'/'.basename($options['p']);
+    $pr = new iHTML\Project\Project($project);
+    $pr->render($output);
+} elseif (isset($operands[0]) && isset($operands[1])) {
+    $document = new iHTML\Document\Document($operands[0]);
+    $ccs = new iHTML\Ccs\Ccs();
+    $ccs->setFile($operands[1]);
+    $ccs->applyTo($document);
+    $document->render($options['o'] ?? STDOUT);
+} elseif (isset($operands[0]) && isset($options['r'])) {
+    $document = new iHTML\Document\Document($operands[0]);
+    $ccs = new iHTML\Ccs\Ccs();
+    $ccs->setContent($options['r'], getcwd());
+    $ccs->applyTo($document);
+    $document->render($options['o'] ?? STDOUT);
+} elseif (isset($operands[0])) {
+    $document = new iHTML\Document\Document($operands[0]);
+    $ccs = new iHTML\Ccs\Ccs();
+    $ccs->setContent(file_get_contents('php://stdin'), getcwd());
+    $ccs->applyTo($document);
+    $document->render($options['o'] ?? STDOUT);
+} else {
+    print 'Please, insert template file'."\n\n";
 }
-elseif(isset($options['p'])) {
-	$project = $options['p'] ?? __DIR__;
-	$output = $options['o'] ?? __DIR__.'/'.basename($options['p']);
-	$pr = new iHTML\Project\Project( $project );
-	$pr->render( $output );
-}
-elseif(isset($operands[0]) && isset($operands[1])) {
-	$document = new iHTML\Document\Document($operands[0]);
-	$ccs = new iHTML\Ccs\Ccs();
-	$ccs->setFile($operands[1]);
-	$ccs->applyTo($document);
-	$document->render( $options['o'] ?? STDOUT );
-}
-elseif(isset($operands[0]) && isset($options['r'])) {
-	$document = new iHTML\Document\Document($operands[0]);
-	$ccs = new iHTML\Ccs\Ccs();
-	$ccs->setContent( $options['r'], getcwd());
-	$ccs->applyTo($document);
-	$document->render( $options['o'] ?? STDOUT );
-}
-elseif(isset($operands[0])) {
-	$document = new iHTML\Document\Document($operands[0]);
-	$ccs = new iHTML\Ccs\Ccs();
-	$ccs->setContent( file_get_contents('php://stdin'), getcwd());
-	$ccs->applyTo($document);
-	$document->render( $options['o'] ?? STDOUT );
-}
-else {
-
-	print 'Please, insert template file'."\n\n";
-
-}
-

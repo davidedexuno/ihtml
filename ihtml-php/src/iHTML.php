@@ -14,16 +14,16 @@ require_once(__DIR__.'/iHTML/Project/Project.php');
 
 /*class CONSTKV
 {
-	public $name;
+    public $name;
 
-	public $value;
+    public $value;
 
-	function __construct($name, $value)
-	{
-		$this->name = $name;
+    function __construct($name, $value)
+    {
+        $this->name = $name;
 
-		$this->value = $value;
-	}
+        $this->value = $value;
+    }
 }
 
 class ATTR extends CONSTKV
@@ -33,6 +33,3 @@ class ATTR extends CONSTKV
 class STYLE extends CONSTKV
 {
 }*/
-
-
-
