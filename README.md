@@ -51,9 +51,23 @@ See examples/.
 * Modularization (separate ads, sidebar, ecc...)
 * Template engines code injection (Twig, Smarty, etc...)
 * CMS (Markdown, BBcode, HTML, text plain, etc...)
+* Sanitize (removing every not-allowed content in a tag)
 * Minify (WTF?!!)
 
 ## TODO
+* add javascript on* attributes support
+* add `content` attribute support
+* add CSS vars() function support
+* add dependency tool on project
+* add full website example to be used ad unit test
+* add `blog posts` example
+* check @import loop
+* add white-space support for inline CSSs and JSs
+* add `code` rule support
+* support for border, margin, padding, wikitext
+* support for form: `link[rel="stylesheet"] { display: "<style>" url(attr-src) "</style>"; }`
+* add support for rule `attributes: {A: "B", C: "D"}` (JSON) or `attributes: A B, C D` (CSS)
+* add SASS/SCSS example
 * add ld+json navigation support
 * add url parts support (img[src], a[href], etc...)
 * move to a REAL html5 parser (like the Chrome one)
