@@ -54,7 +54,6 @@ class Document
         foreach ($this->modifiers as $modifier) {
             $modifier->render();
         }
-
         // returns / prints / writes document
         switch ($output) {
             case null:
@@ -68,7 +67,6 @@ class Document
                 if (!empty($out_dir) && !file_exists($out_dir)) {
                     mkdir($out_dir, 0777, true);
                 }
-    
                 (new \Masterminds\HTML5)->save($this->domdocument, $output);
             break;
         }
@@ -78,13 +76,9 @@ class Document
     {
         foreach (glob(dirname(__FILE__).'/Modifiers/*.class.php') as $modifierFile) {
             require_once $modifierFile;
-            
             $modifierName = str_replace([dirname(__FILE__).'/Modifiers/','.class.php'], '', $modifierFile);
-
             $class = 'iHTML\\Document\\Modifiers\\'.$modifierName.'Modifier';
-
             $modifier = new $class($this->domdocument);
-
             $this->modifiers[ $modifier->queryMethod() ] = $modifier;
         }
     }
