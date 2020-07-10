@@ -14,15 +14,11 @@ class Document
     public function __construct($html)
     {
         $html = realpath($html);
-
         if (!$html) {
             throw new \Exception('File `'.$html.'` not found.');
         }
-
         $this->domdocument = (new \Masterminds\HTML5)->load($html, [ \Masterminds\HTML5\Parser\DOMTreeBuilder::OPT_DISABLE_HTML_NS => true]);
-
         $this->loadModifiers();
-
         // LOAD INTERNAL CCS
         // <link rel="contentsheet" href="..."> ...
         foreach ($this('link[rel="contentsheet"][href]')->getResults() as $result) {
@@ -30,19 +26,15 @@ class Document
             $ccs->applyTo($this);
             $result->parentNode->removeChild($result);
         }
-
         // <dom> ... </dom> ...
-        foreach ($this('dom')->getResults() as $result) {
+        foreach ($this('content')->getResults() as $result) {
             $ccs = new Ccs();
             $ccs->setContent($result->textContent, dirname($html));
             $ccs->applyTo($this);
-
             $result->parentNode->removeChild($result);
         }
-
         // <ELEM dom="..."> ...
-        foreach ($this('[dom]')->getResults() as $result) {
-
+        foreach ($this('[content]')->getResults() as $result) {
             // TODO
         }
     }
