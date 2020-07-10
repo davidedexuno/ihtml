@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-require(__DIR__.'/../src/iHTML.php');
+require_once __DIR__ . '/../src/iHTML.php';
 
 
 $document = new \iHTML\Document\Document( __DIR__.'/example.html');
