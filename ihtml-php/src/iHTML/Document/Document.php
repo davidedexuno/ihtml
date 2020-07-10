@@ -26,14 +26,14 @@ class Document
             $ccs->applyTo($this);
             $result->parentNode->removeChild($result);
         }
-        // <dom> ... </dom> ...
+        // <content> ... </content> ...
         foreach ($this('content')->getResults() as $result) {
             $ccs = new Ccs();
             $ccs->setContent($result->textContent, dirname($html));
             $ccs->applyTo($this);
             $result->parentNode->removeChild($result);
         }
-        // <ELEM dom="..."> ...
+        // <ELEM content="..."> ...
         foreach ($this('[content]')->getResults() as $result) {
             // TODO
         }
