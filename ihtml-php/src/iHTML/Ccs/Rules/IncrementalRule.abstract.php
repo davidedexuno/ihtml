@@ -2,6 +2,8 @@
 
 namespace iHTML\Ccs\Rules;
 
+use Exception;
+
 require_once dirname(__FILE__).'/BaseRule.abstract.php';
 
 abstract class IncrementalRule extends BaseRule
@@ -28,7 +30,7 @@ abstract class IncrementalRule extends BaseRule
         } elseif (is_string($value) && isset($constants[ $value ])) {
             return $constants[ $value ];
         } else {
-            throw new \Exception('Value '.$value.' is not defined.');
+            throw new Exception("Value $value is not defined.");
         }
     }
 }

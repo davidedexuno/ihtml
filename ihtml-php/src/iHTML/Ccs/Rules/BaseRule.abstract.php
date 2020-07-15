@@ -2,6 +2,8 @@
 
 namespace iHTML\Ccs\Rules;
 
+use Exception;
+
 abstract class BaseRule
 {
 
@@ -31,7 +33,7 @@ abstract class BaseRule
         $constants = static::constants();
 
         if (!isset($constants[ $value ])) {
-            throw new \Exception('Value '.$value.' is not defined.');
+            throw new Exception("Value $value is not defined.");
         }
         
         return $constants[ $value ];

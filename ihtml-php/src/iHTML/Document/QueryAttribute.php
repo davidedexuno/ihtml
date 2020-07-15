@@ -3,6 +3,7 @@
 namespace iHTML\Document;
 
 use Symfony\Component\DomCrawler\Crawler;
+use Exception;
 
 class QueryAttribute
 {
@@ -46,7 +47,7 @@ class QueryAttribute
                 $entry->removeAttribute($this->name);
             }
             else {
-                throw new \Exception('attribute/not NONE Not yet implemented.');
+                throw new Exception('attribute/not NONE Not yet implemented.');
             }
             $entry->setAttribute('style', $style);
         }
@@ -55,6 +56,6 @@ class QueryAttribute
 
     public function visibility($value)
     {
-        throw new \Exception('attribute/visibiliy Not yet implemented.');
+        throw new Exception('attribute/visibiliy Not yet implemented.');
     }
 }

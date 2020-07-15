@@ -3,8 +3,10 @@
 namespace iHTML\Document;
 
 use iHTML\Ccs\Ccs;
+use Exception;
 
 require_once(dirname(__FILE__).'/../Ccs/Ccs.php');
+
 
 class Document
 {
@@ -15,7 +17,7 @@ class Document
     {
         $html = realpath($html);
         if (!$html) {
-            throw new \Exception('File `'.$html.'` not found.');
+            throw new Exception("File '$html' not found.");
         }
         $this->domdocument = (new \Masterminds\HTML5)->load($html, [ \Masterminds\HTML5\Parser\DOMTreeBuilder::OPT_DISABLE_HTML_NS => true]);
         $this->loadModifiers();

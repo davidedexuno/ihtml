@@ -4,6 +4,7 @@ namespace iHTML\Project;
 
 use iHTML\Document\Document;
 use iHTML\Ccs\Ccs;
+use Exception;
 
 class Project
 {
@@ -19,27 +20,27 @@ class Project
 
         // PROJECT VALIDATION
         if (!$project_dir) {
-            throw new \Exception('Project not found.');
+            throw new Exception('Project not found.');
         }
         if (!is_dir($project_dir)) {
-            throw new \Exception('Project is not a dir.');
+            throw new Exception('Project is not a dir.');
         }
         if (!file_exists($project_dir.'/project.json')) {
-            throw new \Exception('Project file not found.');
+            throw new Exception('Project file not found.');
         }
 
         $project = json_decode(file_get_contents($project_dir.'/project.json'));
         if (!$project) {
-            throw new \Exception('Malformed project file.');
+            throw new Exception('Malformed project file.');
         }
         if (empty($project->implicit)) {
-            throw new \Exception('Malformed project file.');
+            throw new Exception('Malformed project file.');
         }
         if (!isset($project->templates)) {
-            throw new \Exception('Malformed project file.');
+            throw new Exception('Malformed project file.');
         }
         if (!is_array($project->templates)) {
-            throw new \Exception('Malformed project file.');
+            throw new Exception('Malformed project file.');
         }
 
         $this->root = $project_dir;
@@ -65,10 +66,10 @@ class Project
         $out_dir = working_dir(getcwd(), $out);
 
         if (file_exists($out_dir) && (!is_dir($out_dir) || !is_writable($out_dir))) {
-            throw new \Exception('Error creating output folder.');
+            throw new Exception('Error creating output folder.');
         }
         if (!file_exists($out_dir) && !mkdir($out, 0777, true)) {
-            throw new \Exception('Error creating output folder.');
+            throw new Exception('Error creating output folder.');
         }
         
         // SOLVE IMPLICIT FILES

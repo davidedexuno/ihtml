@@ -1,11 +1,13 @@
 <?php
 
+
 namespace iHTML\Ccs;
 
 use iHTML\Document\Document;
 use iHTML\Document\QueryAttr;
 use iHTML\Document\QueryClass;
 use iHTML\Document\QueryStyle;
+use Exception;
 
 interface CcsInterface
 {
@@ -50,7 +52,7 @@ class Ccs implements CcsInterface
     public function setFile(string $file): CcsInterface
     {
         if (!realpath($file)) {
-            throw new \Exception('File `'.$file.'` not found.');
+            throw new Exception("File '$file' not found.");
         }
 
         $this->file = realpath($file);
@@ -73,7 +75,7 @@ class Ccs implements CcsInterface
     public function getHierarchyList(): array
     {
         if ($this->content === false) {
-            throw new \Exception('Ccs Content not set.');
+            throw new Exception('Ccs Content not set.');
         }
         // useless check the root
 
@@ -96,7 +98,7 @@ class Ccs implements CcsInterface
     public function getHierarchyTree(): array
     {
         if ($this->content === false) {
-            throw new \Exception('Ccs Content not set.');
+            throw new Exception('Ccs Content not set.');
         }
         // useless check the root
 
@@ -117,7 +119,7 @@ class Ccs implements CcsInterface
     public function applyTo(Document $document): CcsInterface
     {
         if ($this->content === false) {
-            throw new \Exception('Ccs Content not set.');
+            throw new Exception('Ccs Content not set.');
         }
         // useless check the root
 
@@ -166,7 +168,7 @@ class Ccs implements CcsInterface
                         break;
                         default:
 
-                            throw new \Exception('Rule type '.$rule->nameParsed->type.' not defined.');
+                            throw new Exception("Rule type {$rule->nameParsed->type} not defined.");
 
                         break;
                     }
@@ -187,7 +189,7 @@ class Ccs implements CcsInterface
             $className = 'iHTML\\Ccs\\Rules\\'.$ruleName.'Rule';
 
             if (!class_exists($className)) {
-                throw new \Exception('Class '.$className.' doesn\'t exists.');
+                throw new Exception("Class $className doesn't exists.");
             }
 
             $this->rules[ $className::rule() ] = $className;
@@ -254,7 +256,7 @@ class Ccs implements CcsInterface
             } elseif (is_string($value) && isset($constants[ $value ])) {
                 return $constants[ $value ];
             } else {
-                throw new \Exception($value.' unrecognized');
+                throw new Exception("$value unrecognized");
             }
         }, $values);
     }
