@@ -3,6 +3,7 @@
 namespace iHTML\Document;
 
 use Symfony\Component\DomCrawler\Crawler;
+use Exception;
 
 class Query
 {
@@ -13,7 +14,7 @@ class Query
         $this->query = (new Crawler($domdocument))->filter($selector);
         foreach ($modules as $moduleName => $module) {
             if (method_exists($this, $moduleName)) {
-                throw new Exception('Modifier name `'.$moduleName.'` is a reserved name.');
+                throw new Exception("Modifier name '$moduleName' is a reserved name.");
             }
             $this->$moduleName = $module;
             $this->$moduleName->setList($this->query);
