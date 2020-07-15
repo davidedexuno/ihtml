@@ -40,19 +40,29 @@ class QueryStyle
     
     public function display($value)
     {
+        $valueStyle = $value === self::NONE ? null : parse_style_attribute($value);
         foreach ($this->nodelist as $entry) {
             $rules = parse_style_attribute($entry->getAttribute('style'));
             if (isset($rules[ $this->name ])) {
-                $old = render_style_attribute([ $this->name => $rules[ $this->name ] ]);
-                $new = $value === self::NONE  ?  ''  :  trim($value, ';').';';
-                $subject = render_style_attribute($rules);
-                $style = str_replace($old, $new, $subject);
+                $newRules = [];
+                foreach($rules as $n => $v) {
+                    if($n == $this->name)
+                        if($value === self::NONE)
+                            {}
+                        else
+                            $newRules += $valueStyle;
+                    else
+                        $newRules[$n] = $rules[$n];
+                }
+                $rules = $newRules;
             } else {
-                $style = render_style_attribute($rules) . $value;
+                if($value === self::NONE)
+                    {}
+                else
+                    $rules += $valueStyle;
             }
-            $entry->setAttribute('style', $style);
+            $entry->setAttribute('style', render_style_attribute($rules));
         }
-    
         return $this->query;
     }
 }

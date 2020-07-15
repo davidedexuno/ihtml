@@ -224,7 +224,7 @@ class Ccs implements CcsInterface
                 $query->style($name)->content((string)$value);
             },
             'display' => function ($query, $name, $values, $value) {
-                $values = $this->solveValues($values);
+                $values = $this->solveValues($values, ['none' => QueryStyle::NONE]);
                 $query->style($name)->display(...$values);
             },
             'visibility' => function ($query, $name, $values, $value) {
