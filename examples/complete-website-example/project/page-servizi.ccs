@@ -12,6 +12,9 @@ title {
 	current_page_item: visible;
 }
 
+.entry-title {
+	style-font-style-display: none;
+}
 .site-inner .content .entry-title {
 	text: "Servizi";
 }
