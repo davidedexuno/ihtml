@@ -2,35 +2,36 @@
 
 
 
+//Ccs = iHTML.Ccs.Ccs
 
-Ccs = iHTML.Ccs.Ccs
+//require('Css')
+var glob = require("glob")
 
 exports.Document = class extends Function
 {
-
     #domdocument
     #modifiers = []
 
     constructor(html)
     {
-        let html = path.resolve(html)
+        html = path.resolve(html)
         if (!fs.existsSync(html)) {
             throw new Exception(`File ${html} not found.`)
         }
-        this.domdocument = (new DOMParser()​​).parseFromString(string, 'text/html')
+        this.domdocument = parse5.parse( fs.readFileSync(html) )
         this.loadModifiers()
         // LOAD INTERNAL CCS
         // <link rel="contentsheet" href="..."> ...
         for(result of this('link[rel="contentsheet"][href]').getResults()) {
-            ccs = new Ccs(path.resolve(html, result.getAttribute('href')))
-            ccs.applyTo(this)
+            //ccs = new Ccs(path.resolve(html, result.getAttribute('href')))
+            //ccs.applyTo(this)
             result.parentNode.removeChild(result)
         }
         // <content> ... </content> ...
         for(result of this('content').getResults()) {
-            ccs = new Ccs()
-            ccs.setContent(result.textContent, path.dirname(html))
-            ccs.applyTo(this)
+            //ccs = new Ccs()
+            //ccs.setContent(result.textContent, path.dirname(html))
+            //ccs.applyTo(this)
             result.parentNode.removeChild(result)
         }
         // <ELEM content="..."> ...
@@ -52,7 +53,7 @@ exports.Document = class extends Function
 
 
     // final rendering
-    render(output = null)
+    async render(output = null)
     {
         // render modifiers final changes
         for(modifier of this.modifiers) {
@@ -78,7 +79,7 @@ exports.Document = class extends Function
     
     loadModifiers()
     {
-        for(modifierFile of  await glob(__dirname + '/Modifiers/*.class.php')) {
+        for(modifierFile of glob.sync(__dirname+'/Modifiers/*.class.php')) {
             require(modifierFile)
             modifierName = modifierFile.replace(__dirname + '/Modifiers/', '').replace('.class.php', '')
             classname = `iHTML.Document.Modifiers.${modifierName}Modifier`;
