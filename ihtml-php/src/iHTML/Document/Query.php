@@ -58,6 +58,15 @@ class Query
         return $this;
     }
 
+    public function jsonLD($name, $value = null)
+    {
+        if (func_num_args() == 1) {
+            return new QueryJson($this, $this->query, $name);
+        }
+        ( new QueryJson($this, $this->query, $name) )($value);
+        return $this;
+    }
+
     /*
      * To solve PHP syntax bug. Otherwise a property that contains a callable object must be invoked like this
      * ($this->display)($a, $b, $c)
