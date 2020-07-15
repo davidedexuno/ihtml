@@ -65,10 +65,11 @@ See examples/.
 * add white-space support for inline CSSs and JSs
 * add `code` rule support
 * support for border, margin, padding, wikitext
-* support for form: `link[rel="stylesheet"] { display: "<style>" url(attr-src) "</style>"; }`
-* add support for rule `attributes: {A: "B", C: "D"}` (JSON) or `attributes: A B, C D` (CSS)
+* add support for rule `attributes: A B, C D`
 * add SASS/SCSS example
 * add ld+json navigation support
-* add url parts support (img[src], a[href], etc...)
+* add url parts support (link[href], script[src], a[href], img[src], source[src], video[poster] and other URI attributes - https://www.w3.org/TR/2017/REC-html52-20171214/fullindex.html#attributes-table)
+* add `[srcset]` support
+* add `<style>` support
 * move to a REAL html5 parser (like the Chrome one)
 
