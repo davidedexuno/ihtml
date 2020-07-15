@@ -29,15 +29,11 @@ class QueryClass
     {
         foreach ($this->nodelist as $entry) {
             $classes = preg_split('/\s+/', $entry->getAttribute('class'));
-            if ($value === self::HIDDEN) {
-                if (($i = array_search($this->name, $classes)) !== false) {
-                    unset($classes[ $i ]);
-                }
+            if ($value === self::HIDDEN  && in_array( $this->name, $classes)) {
+                $classes = array_diff( $classes, [$this->name] );
             }
-            if ($value === self::VISIBLE) {
-                if (!in_array($this->name, $classes)) {
-                    $classes[] = $this->name;
-                }
+            if ($value === self::VISIBLE && !in_array($this->name, $classes)) {
+                $classes[] = $this->name;
             }
             $entry->setAttribute('class', implode(' ', $classes));
         }
