@@ -20,21 +20,10 @@ class Query
             $this->$moduleName->setList($this->query);
         }
     }
-    
-    //
-    // To solve PHP syntax bug (and chaining).
-    //
-    // The code:
-    // $this->display($a, $b, $c);
-    //
-    // with invokable objects, must be written as:
-    //
-    // ($this->display)($a, $b, $c);
-    //
-    public function __call(string $name, array $arguments)
+
+    public function getResults()
     {
-        ($this->$name)(...$arguments);
-        return $this;
+        return $this->query;
     }
 
     public function empty()
@@ -42,11 +31,6 @@ class Query
         return count($this->query) == 0;
     }
     
-    public function getResults()
-    {
-        return $this->query;
-    }
-
     public function attr($name, $value = null)
     {
         if (func_num_args() == 1) {
@@ -71,6 +55,18 @@ class Query
             return new QueryClass($this, $this->query, $name);
         }
         ( new QueryClass($this, $this->query, $name) )($value);
+        return $this;
+    }
+
+    /*
+     * To solve PHP syntax bug. Otherwise a property that contains a callable object must be invoked like this
+     * ($this->display)($a, $b, $c)
+     * instead of
+     * $this->display($a, $b, $c)
+     */
+    public function __call(string $name, array $arguments)
+    {
+        ($this->$name)(...$arguments);
         return $this;
     }
 }
