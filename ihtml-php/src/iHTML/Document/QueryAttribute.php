@@ -43,10 +43,9 @@ class QueryAttribute
     public function display($value)
     {
         foreach ($this->nodelist as $entry) {
-            if($value === self::NONE) {
+            if ($value === self::NONE) {
                 $entry->removeAttribute($this->name);
-            }
-            else {
+            } else {
                 throw new Exception('attribute/not NONE Not yet implemented.');
             }
             $entry->setAttribute('style', $style);

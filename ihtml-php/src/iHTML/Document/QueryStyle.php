@@ -45,21 +45,22 @@ class QueryStyle
             $rules = parse_style_attribute($entry->getAttribute('style'));
             if (isset($rules[ $this->name ])) {
                 $newRules = [];
-                foreach($rules as $n => $v) {
-                    if($n == $this->name)
-                        if($value === self::NONE)
-                            {}
-                        else
+                foreach ($rules as $n => $v) {
+                    if ($n == $this->name) {
+                        if ($value === self::NONE) {
+                        } else {
                             $newRules += $valueStyle;
-                    else
+                        }
+                    } else {
                         $newRules[$n] = $rules[$n];
+                    }
                 }
                 $rules = $newRules;
             } else {
-                if($value === self::NONE)
-                    {}
-                else
+                if ($value === self::NONE) {
+                } else {
                     $rules += $valueStyle;
+                }
             }
             $entry->setAttribute('style', render_style_attribute($rules));
         }
