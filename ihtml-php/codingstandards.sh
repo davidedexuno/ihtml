@@ -1,5 +1,9 @@
-./php-cs-fixer fix examples
-./php-cs-fixer fix ihtml
-./php-cs-fixer fix src/iHTML
-./php-cs-fixer fix src/iHTML.php
+if [ ! -f "/tmp/php-cs-fixer" ]; then
+	wget https://cs.symfony.com/download/php-cs-fixer-v2.phar -O /tmp/php-cs-fixer
+	chmod +x /tmp/php-cs-fixer
+fi
+/tmp/php-cs-fixer fix examples
+/tmp/php-cs-fixer fix ihtml
+/tmp/php-cs-fixer fix src/iHTML
+/tmp/php-cs-fixer fix src/iHTML.php
 
