@@ -42,32 +42,32 @@ ihtml -p <project> -s [-t <static files dir>]
 
 /* Updates content of a tag with new html */
 <SELECTOR> {
-	content: "HTML CONTENT EXCLUDED TAGS";
+  content: "HTML CONTENT EXCLUDED TAGS";
 }
 
 /* Removes an element */
 <SELECTOR> {
-	display: none;
+  display: none;
 }
 
 /* Replaces an element with new html */
 <SELECTOR> {
-	display: "<div>HTML CONTENT INCLUDING TAGS</div>";
+  display: "<div>HTML CONTENT INCLUDING TAGS</div>";
 }
 
 /**/
 <SELECTOR> {
-	text: "TEXT CONTENT (URL ENTITY ENCODED)";
+  text: "TEXT CONTENT (URL ENTITY ENCODED)";
 }
 
 /**/
 <SELECTOR> {
-	display: '<div>' content '</div>';
+  display: '<div>' content '</div>';
 }
 
 /**/
 <SELECTOR> {
-	display: '<div>' display display display '</div>';
+  display: '<div>' display display display '</div>';
 }
 
 /**/
@@ -75,91 +75,91 @@ ihtml -p <project> -s [-t <static files dir>]
 
 /**/
 <SELECTOR> {
-	content: url(content.html);
+  content: url(content.html);
 }
 
 /**/
 <SELECTOR> {
-	content: " \
+  content: " \
 <div> \
-	Content \
+  Content \
 </div> \
 ";
 }
 
 /**/
 <SELECTOR> {
-	/**/
-	text-transform: uppercase;
-	/**/
-	text-transform: lowercase;
-	/**/
-	text-transform: capitalize;
-	/**/
-	text-transform: none;
+  /**/
+  text-transform: uppercase;
+  /**/
+  text-transform: lowercase;
+  /**/
+  text-transform: capitalize;
+  /**/
+  text-transform: none;
 }
 /**/
 <SELECTOR> {
-	/**/
-	visibility: vosible;
-	/**/
-	visibility: hidden;
+  /**/
+  visibility: vosible;
+  /**/
+  visibility: hidden;
 }
 /**/
 <SELECTOR> {
-	/**/
-	white-space: normal;
-	/**/
-	white-space: nowrap;
-	/**/
-	white-space: pre;
-	/**/
-	white-space: pre-line;
-	/**/
-	white-space: pre-wrap;
-}
-
-/**/
-<SELECTOR> {
-	bbcode: "[b]BB CODE[/b] ENCODED TO [i]HTML[/i]";
+  /**/
+  white-space: normal;
+  /**/
+  white-space: nowrap;
+  /**/
+  white-space: pre;
+  /**/
+  white-space: pre-line;
+  /**/
+  white-space: pre-wrap;
 }
 
 /**/
 <SELECTOR> {
-	markdown: url(content.md);
+  bbcode: "[b]BB CODE[/b] ENCODED TO [i]HTML[/i]";
 }
 
 /**/
 <SELECTOR> {
-	attr-<ATTRIBUTE>-content: "STRING";
-	/**/
-	attr-<ATTRIBUTE>-display: none | "STRING";
-	/**/
-	attr-<ATTRIBUTE>-visibility: visible | hidden;
-	/**/
-	attr-<ATTRIBUTE>[-content]: "STRING";
+  markdown: url(content.md);
+}
+
+/**/
+<SELECTOR> {
+  attr-<ATTRIBUTE>-content: "STRING";
+  /**/
+  attr-<ATTRIBUTE>-display: none | "STRING";
+  /**/
+  attr-<ATTRIBUTE>-visibility: visible | hidden;
+  /**/
+  attr-<ATTRIBUTE>[-content]: "STRING";
 }
 /**/
 <SELECTOR> {
-	style-<RULE>-content: "CSS VALUE STRING";
-	/**/
-	style-<RULE>-literal: css value literal;
-	/**/
-	style-<RULE>-display: "<div> Content </div>";
-	/**/
-	style-<RULE>-visibility: visible | hidden;
-	/**/
-	style-<RULE>[-literal]: css value literal;
-	/**/
-	[style-]CSSRULENAME[-literal]: css value literal;
+  style-<RULE>-content: "CSS VALUE STRING";
+  /**/
+  style-<RULE>-literal: css value literal;
+  /**/
+  style-<RULE>-display: "<div> Content </div>";
+  /**/
+  style-<RULE>-visibility: visible | hidden;
+  /**/
+  style-<RULE>[-literal]: css value literal;
+  /**/
+  [style-]CSSRULENAME[-literal]: css value literal;
 }
 /**/
 <SELECTOR> {
-	class-<CLASSNAME>-visibility: visible | hidden;
-	/**/
-	class-<CLASSNAME>[-visibility]: visible | hidden;
-	/**/
-	[class-]GENERICNAME[-visibility]: visible | hidden;
+  class-<CLASSNAME>-visibility: visible | hidden;
+  /**/
+  class-<CLASSNAME>[-visibility]: visible | hidden;
+  /**/
+  [class-]GENERICNAME[-visibility]: visible | hidden;
 }
 ```
 
