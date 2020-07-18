@@ -1,12 +1,12 @@
+'use strict'
 
-
-
-
+const Query = require('./Query').Query
+const jsdom = require('jsdom'); const { JSDOM } = jsdom
 //Ccs = iHTML.Ccs.Ccs
-
 //require('Css')
 var glob = require("glob")
-
+var path = require('path')
+var fs = require('fs')
 exports.Document = class extends Function
 {
     #domdocument
@@ -14,34 +14,32 @@ exports.Document = class extends Function
 
     constructor(html)
     {
+        super('return arguments.callee._call.apply(arguments.callee, arguments)')
+
         html = path.resolve(html)
         if (!fs.existsSync(html)) {
-            throw new Exception(`File ${html} not found.`)
+            throw new Error(`File ${html} not found.`)
         }
-        this.domdocument = parse5.parse( fs.readFileSync(html) )
+        this.domdocument = new JSDOM( fs.readFileSync(html) )
         this.loadModifiers()
         // LOAD INTERNAL CCS
         // <link rel="contentsheet" href="..."> ...
-        for(result of this('link[rel="contentsheet"][href]').getResults()) {
+        for(let result of this('link[rel="contentsheet"][href]').getResults()) {
             //ccs = new Ccs(path.resolve(html, result.getAttribute('href')))
             //ccs.applyTo(this)
             result.parentNode.removeChild(result)
         }
         // <content> ... </content> ...
-        for(result of this('content').getResults()) {
+        for(let result of this('content').getResults()) {
             //ccs = new Ccs()
             //ccs.setContent(result.textContent, path.dirname(html))
             //ccs.applyTo(this)
             result.parentNode.removeChild(result)
         }
         // <ELEM content="..."> ...
-        for(result of this('[content]').getResults()) {
+        for(let result of this('[content]').getResults()) {
             // TODO
         }
-
-        super('...args', 'return this._bound._call(...args)')
-        this._bound = this.bind(this)
-        return this._bound
     }
 
 

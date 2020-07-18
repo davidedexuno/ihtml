@@ -10,10 +10,10 @@ exports.Query = class
 
     constructor(domdocument, modules, selector)
     {
-        this.query = domdocument.querySelectorAll(selector)
+        this.query = domdocument.window.document.querySelectorAll(selector)
         for (moduleName in modules) { module = modules[moduleName]
             if (this[moduleName] ?? null) {
-                throw new Exception(`Modifier name \`${moduleName}\` is a reserved name.`);
+                throw new Error(`Modifier name \`${moduleName}\` is a reserved name.`);
             }
             this.moduleName = module
             this.moduleName.setList(this.query)

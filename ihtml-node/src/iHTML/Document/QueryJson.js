@@ -1,6 +1,6 @@
 <?php
 
-namespace iHTML\Document;
+let Document = require('./Document').Document
 
 use Symfony\Component\DomCrawler\Crawler;
 

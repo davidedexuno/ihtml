@@ -1,6 +1,6 @@
 
 
-Document = iHTML.Document
+let Document = require('./Document').Document
 const styleParse = require('style-parser')
 
 
