@@ -23,12 +23,12 @@ ihtml <template> [-o <file>]
 
 Compiles the project:
 ```shell
-ihtml -p <project> [-o <file>]
+ihtml -p <project> [-o <directory>]
 ```
 
 Opens a server on a project:
 ```shell
-ihtml -p <project> -s [-t <static files dir>]
+ihtml -p <project> -s [<PORT>] [-t <static files dir>]
 ```
 
 ## Examples

@@ -10,17 +10,19 @@ abstract class BaseRule
     // es: text-transform
     abstract public static function rule(): string;
 
-    public static function exec($query, $values, $dir)
+    public static function exec($query, $value)
     {
-        $values = static::solveValues($values, $dir);
-    
-        static::execute($query, $values, $dir);
+        $query->{ static::method() }( ...static::solveValues($value) );
     }
 
     //abstract function isValid(...$params): bool;
     
-    protected static function solveValues($values, $dir)
+    protected static function solveValues($value, $dir)
     {
+        //$ruleValueList = $ruleValue instanceof CSS\Value\RuleValueList ? $ruleValue->getListComponents() : [ $ruleValue ];
+        /*$ruleValueList = array_map(function($element) {
+            return $element;
+        }, $ruleValueList);*/
         $values = array_map(function ($value) use ($dir) {
             return static::solveValue($value, $dir);
         }, $values);
@@ -44,10 +46,5 @@ abstract class BaseRule
         return [];
     }
     
-    public static function execute($query, $values, $dir)
-    {
-        $query->{ static::method() }(...$values);
-    }
-
     abstract protected static function method(): string;
 }

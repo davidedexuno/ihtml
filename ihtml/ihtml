@@ -1,24 +1,16 @@
 #!/bin/bash
-
 if command -v php &> /dev/null; then
-
 	echo ""
 	echo "Using PHP version..."
 	echo ""
-
-	./ihtml-php/ihtml "$@"
-
+	../ihtml-php/ihtml "$@"
 elif command -v node &> /dev/null; then
-
 	echo ""
 	echo "Using NodeJS version..."
 	echo ""
-
-	./ihtml-node/ihtml "$@"
-
+	../ihtml-node/ihtml "$@"
 else
-
 	echo "no interpreter found. please install node, php or any other supported interpreter"
-
+	exit 1
 fi
 

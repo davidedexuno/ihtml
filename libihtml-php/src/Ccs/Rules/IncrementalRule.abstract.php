@@ -23,9 +23,7 @@ abstract class IncrementalRule extends BaseRule
     {
         $constants = static::constants();
 
-        if ($value instanceof \Sabberworm\CSS\Value\URL) {
-            return file_get_contents(working_dir($dir, $value->getURL()->getString()));
-        } elseif ($value instanceof \Sabberworm\CSS\Value\CSSString) {
+        if ($value instanceof \Sabberworm\CSS\Value\CSSString) {
             return $value->getString();
         } elseif (is_string($value) && isset($constants[ $value ])) {
             return $constants[ $value ];
