@@ -1,8 +1,0 @@
-
-/* TEST SELECTORS WEIGHT */
-.menu-primary .menu-item [a="eee"] {}
-.menu-primary .menu-item #idd {}
-.menu-primary .menu-item [a="eee"] #AAA,
-.menu-primary .menu-item [a="ooo"] {}
-/* --- */
-

@@ -1,9 +1,0 @@
-{
-	"implicit" : "index.html",
-	"templates" : [
-		{"html" : "template.html", "apply" : "page-assistenza.ccs", "output" : "assistenza.html"},
-		{"html" : "template.html", "apply" : "page-telefonia.ccs",  "output" : "telefonia.html" },
-		{"html" : "template.html", "apply" : "page-servizi.ccs",    "output" : "servizi.html"   }
-	]
-}
-
