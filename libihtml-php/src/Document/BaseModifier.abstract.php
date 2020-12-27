@@ -6,7 +6,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 abstract class BaseModifier
 {
-
     abstract public function queryMethod(): string;
 
     abstract public function isValid(...$params): bool;
@@ -124,7 +123,9 @@ abstract class BaseModifier
         $oldLates = $this->lates;
 
         // sorting by depth (asc)
-        usort($oldLates, function ($a, $b) { return substr_count($a->element->getNodePath(), '/') - substr_count($b->element->getNodePath(), '/'); });
+        usort($oldLates, function ($a, $b) {
+            return substr_count($a->element->getNodePath(), '/') - substr_count($b->element->getNodePath(), '/');
+        });
 
         // expand
         $this->lates = [];

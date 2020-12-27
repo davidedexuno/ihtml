@@ -96,9 +96,9 @@ class Ccs implements CcsInterface
             }
         });
         if ($this->file) {
-            $parser->parseFile( new \SplFileObject($this->file) );
+            $parser->parseFile(new \SplFileObject($this->file));
         } elseif ($this->code) {
-            $parser->parseCode($this->code, dir(getcwd()) );
+            $parser->parseCode($this->code, dir(getcwd()));
         } else {
             throw new Exception('Ccs: code or file not set');
         }

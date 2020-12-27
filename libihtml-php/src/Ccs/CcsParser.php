@@ -25,7 +25,7 @@ class CcsParser
             if ($oContent instanceof CSS\Property\Import) {
                 (new CcsParser)
                     ->setOnSelector($this->onSelectorEvent)
-                    ->parseFile( new \SplFileObject( working_dir($dir->path, $oContent->atRuleArgs()[0]->getUrl()->getString()) ) );
+                    ->parseFile(new \SplFileObject(working_dir($dir->path, $oContent->atRuleArgs()[0]->getUrl()->getString())));
             } elseif ($oContent instanceof CSS\RuleSet\DeclarationBlock) {
                 if (!empty($oContent->getRules())) {
                     continue;
