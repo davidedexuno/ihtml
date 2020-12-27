@@ -28,7 +28,7 @@ if (isset($options['s'])) {
             $document = new iHTML\Document\Document(working_dir($project->getRoot(), $template->html));
             $ccs = new iHTML\Ccs\Ccs(working_dir($project->getRoot(), $template->apply));
             $ccs->applyTo($document);
-            $body = $document->render();
+            $body = $document->render(null, $options['i'] ?? null);
             print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
             return new React\Http\Response(200, ['Content-Type' => 'text/html'], $body);
         }
@@ -48,27 +48,26 @@ if (isset($options['s'])) {
     $loop->run();
 } elseif (isset($options['p'])) {
     $project = $options['p'] ?? __DIR__;
-    $output = $options['o'] ?? __DIR__.'/'.basename($options['p']);
+    $output = $options['o'] ?? '.';
     $pr = new iHTML\Project\Project($project);
-    $pr->render($output);
+    $pr->render($output, $options['i'] ?? null);
 } elseif (isset($operands[0]) && isset($operands[1])) {
     $document = new iHTML\Document\Document($operands[0]);
     $ccs = new iHTML\Ccs\Ccs();
     $ccs->setFile($operands[1]);
     $ccs->applyTo($document);
-    $document->render($options['o'] ?? STDOUT);
-} elseif (isset($operands[0]) && isset($options['r'])) {
+    $document->render($options['o'] ?? STDOUT, $options['i'] ?? null);
     $document = new iHTML\Document\Document($operands[0]);
     $ccs = new iHTML\Ccs\Ccs();
-    $ccs->setContent($options['r'], getcwd());
+    $ccs->setContent($options['r'], $options['d'] ?? getcwd());
     $ccs->applyTo($document);
-    $document->render($options['o'] ?? STDOUT);
+    $document->render($options['o'] ?? STDOUT, $options['i'] ?? null);
 } elseif (isset($operands[0])) {
     $document = new iHTML\Document\Document($operands[0]);
     $ccs = new iHTML\Ccs\Ccs();
-    $ccs->setContent(file_get_contents('php://stdin'), getcwd());
+    $ccs->setContent(file_get_contents('php://stdin'), $options['d'] ?? getcwd());
     $ccs->applyTo($document);
-    $document->render($options['o'] ?? STDOUT);
+    $document->render($options['o'] ?? STDOUT, $options['i'] ?? null);
 } else {
     print 'Please, insert template file'."\n\n";
 }

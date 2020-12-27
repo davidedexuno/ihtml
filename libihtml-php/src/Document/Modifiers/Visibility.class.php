@@ -2,9 +2,7 @@
 
 namespace iHTML\Document\Modifiers;
 
-require_once dirname(__FILE__).'/LateModifier.abstract.php';
-
-class VisibilityModifier extends LateModifier
+class VisibilityModifier extends BaseModifier
 {
     const VISIBLE = 1003;
     const HIDDEN  = 1004;
@@ -19,9 +17,9 @@ class VisibilityModifier extends LateModifier
         return in_array($params[0], [self::VISIBLE, self::HIDDEN]);
     }
 
-    public function defaultValue(): int
+    public function apply(\DOMElement $element)
     {
-        return self::VISIBLE;
+        $this->applyLater($element, self::VISIBLE);
     }
 
     public function render()

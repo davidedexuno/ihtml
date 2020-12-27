@@ -12,7 +12,7 @@ abstract class BaseRule
 
     public static function exec($query, $value)
     {
-        $query->{ static::method() }( ...static::solveValues($value) );
+        $query->{ static::method() }(...static::solveValues($value));
     }
 
     //abstract function isValid(...$params): bool;

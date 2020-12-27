@@ -2,9 +2,7 @@
 
 namespace iHTML\Document\Modifiers;
 
-require_once dirname(__FILE__).'/LateInheritedModifier.abstract.php';
-
-class WhiteSpaceModifier extends LateInheritedModifier
+class WhiteSpaceModifier extends BaseModifier
 {
     public function queryMethod(): string
     {
@@ -23,9 +21,14 @@ class WhiteSpaceModifier extends LateInheritedModifier
     const PREWRAP = 1010; // collapse: -        Text wrap: when necessary
     //const INITIAL = 1011; // Sets this property to its default value. Read about initial
 
+    public function apply(\DOMElement $element)
+    {
+        $this->applyLater($element, self::INHERIT);
+    }
+
     public function render()
     {
-        parent::render();
+        parent::latesExpandInherits();
 
         $regexes = [
             self::NORMAL  => [ '/[ \t\r\n]+/' => ' ' ],

@@ -2,15 +2,18 @@
 
 namespace iHTML\Document\Modifiers;
 
-require_once dirname(__FILE__).'/IncrementalModifier.abstract.php';
-
-class BorderModifier extends IncrementalModifier
+class BorderModifier extends BaseModifier
 {
     public function queryMethod(): string
     {
         return 'border';
     }
     
+    public function isValid(...$params): bool
+    {
+        return true;
+    }
+
     public function apply(\DOMElement $element)
     {
         $content = static::solveParams($this->params, $element);

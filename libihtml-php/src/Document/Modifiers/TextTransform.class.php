@@ -2,9 +2,7 @@
 
 namespace iHTML\Document\Modifiers;
 
-require_once dirname(__FILE__).'/LateInheritedModifier.abstract.php';
-
-class TextTransformModifier extends LateInheritedModifier
+class TextTransformModifier extends BaseModifier
 {
     const LOWERCASE  = 1013;
     const UPPERCASE  = 1014;
@@ -21,9 +19,14 @@ class TextTransformModifier extends LateInheritedModifier
         return in_array($params[0], [self::UPPERCASE, self::LOWERCASE, self::CAPITALIZE, self::INHERIT]);
     }
 
+    public function apply(\DOMElement $element)
+    {
+        $this->applyLater($element, self::INHERIT);
+    }
+
     public function render()
     {
-        parent::render();
+        parent::latesExpandInherits();
 
         $transforms = [
             self::LOWERCASE  => 'strtolower',

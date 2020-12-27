@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "666e07a0425f02650ff6c584a0ef33df",
+    "content-hash": "d248d6204610e3ae6fa9542ccd9c942e",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -211,6 +211,46 @@
                 "stylesheet"
             ],
             "time": "2020-06-01T09:10:00+00:00"
+        },
+        {
+            "name": "subjective-php/spl-types",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/subjective-php/spl-types.git",
+                "reference": "96f02d27a75561d9259a7ee8c60d1454ae7d9ced"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/subjective-php/spl-types/zipball/96f02d27a75561d9259a7ee8c60d1454ae7d9ced",
+                "reference": "96f02d27a75561d9259a7ee8c60d1454ae7d9ced",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^6.5",
+                "squizlabs/php_codesniffer": "^3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SubjectivePHP\\Spl\\Types\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A collection of classes which provide various typehandling.",
+            "keywords": [
+                "enum",
+                "spl",
+                "types"
+            ],
+            "time": "2018-06-03T20:38:41+00:00"
         },
         {
             "name": "symfony/css-selector",

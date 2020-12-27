@@ -39,10 +39,6 @@ class Document
         foreach ($this('[content]')->getResults() as $result) {
             // TODO
         }
-
-
-
-
     }
 
 
@@ -54,8 +50,9 @@ class Document
 
 
     // final rendering
-    public function render($output = null)
+    public function render(string $output = null, ?string $index = "index.html")
     {
+        $index = $index ?? "index.html";
         // render modifiers final changes
         foreach ($this->modifiers as $modifier) {
             $modifier->render();
@@ -69,6 +66,9 @@ class Document
                 print (new \Masterminds\HTML5)->saveHTML($this->domdocument);
             break;
             default:
+                if (substr($output, -1) == '/') {
+                    $output .= $index;
+                }
                 $out_dir = dirname($output);
                 if (!empty($out_dir) && !file_exists($out_dir)) {
                     mkdir($out_dir, 0777, true);

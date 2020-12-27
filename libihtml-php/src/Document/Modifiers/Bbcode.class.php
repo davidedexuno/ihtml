@@ -2,15 +2,18 @@
 
 namespace iHTML\Document\Modifiers;
 
-require_once dirname(__FILE__).'/Content.class.php';
-
-class BbcodeModifier extends ContentModifier
+class BbcodeModifier extends BaseModifier
 {
     public function queryMethod(): string
     {
         return 'bbcode';
     }
     
+    public function isValid(...$params): bool
+    {
+        return true;
+    }
+
     public function apply(\DOMElement $element)
     {
         $content = static::solveParams($this->params, $element);

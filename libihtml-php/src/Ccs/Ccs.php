@@ -66,21 +66,12 @@ class Ccs implements CcsInterface
     public function applyTo(Document $document): CcsInterface
     {
         $parser = new CcsParser;
-        if($this->file) {
-            $parser->setFile($this->file);
-        }
-        else if($this->code) {
-            $parser->setCode($this->code);
-        }
-        else {
-            throw new Exception('Ccs: code or file not set');
-        }
-        $parser->onSelector(function (string $selectors, array $rules) use ($document) {
+        $parser->setOnSelector(function (string $selectors, array $rules) use ($document) {
             $query = $document($selectors);
             if ($query->empty()) {
                 return;
             }
-            foreach($rules as $rule) {
+            foreach ($rules as $rule) {
                 $ruleComponents = $this->decodeRule($rule->name);
                 $ruleType = $ruleComponents->type;
                 $ruleName = $ruleComponents->rule;
@@ -104,39 +95,39 @@ class Ccs implements CcsInterface
                 }
             }
         });
-        $parser->parse();
+        if ($this->file) {
+            $parser->parseFile( new \SplFileObject($this->file) );
+        } elseif ($this->code) {
+            $parser->parseCode($this->code, dir(getcwd()) );
+        } else {
+            throw new Exception('Ccs: code or file not set');
+        }
         return $this;
     }
     
     public function getHierarchyList(): array
     {
         $parser = new CcsParser;
-        if($this->file) {
-            $parser->setFile($this->file);
-        }
-        else if($this->code) {
-            $parser->setCode($this->code);
-        }
-        else {
+        if ($this->file) {
+            return $parser->inheritanceFile($this->file, CcsParser::INHERITANCE_LIST);
+        } elseif ($this->code) {
+            return $parser->inheritanceCode($this->code, CcsParser::INHERITANCE_LIST);
+        } else {
             throw new Exception('Ccs: code or file not set');
         }
-        return $parser->inheritance(CcsParser::INHERITANCE_LIST);
     }
 
 
     public function getHierarchyTree(): array
     {
         $parser = new CcsParser;
-        if($this->file) {
-            $parser->setFile($this->file);
-        }
-        else if($this->code) {
-            $parser->setCode($this->code);
-        }
-        else {
+        if ($this->file) {
+            return $parser->inheritanceFile($this->file, CcsParser::INHERITANCE_TREE);
+        } elseif ($this->code) {
+            return $parser->inheritanceCode($this->code, CcsParser::INHERITANCE_TREE);
+        } else {
             throw new Exception('Ccs: code or file not set');
         }
-        return $parser->inheritance(CcsParser::INHERITANCE_TREE);
     }
 
 
