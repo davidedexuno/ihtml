@@ -4,6 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/src/Project/Project.php';
 require_once __DIR__ . '/src/Ccs/Ccs.php';
 require_once __DIR__ . '/src/Ccs/CcsParser.php';
+require_once __DIR__ . '/src/Ccs/BaseRule.abstract.php';
 require_once __DIR__ . '/src/Document/Document.php';
 require_once __DIR__ . '/src/Document/BaseModifier.abstract.php';
 require_once __DIR__ . '/src/Document/Query.php';

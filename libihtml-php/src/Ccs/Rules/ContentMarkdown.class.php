@@ -2,17 +2,8 @@
 
 namespace iHTML\Ccs\Rules;
 
-require_once dirname(__FILE__).'/Content.class.php';
-
-class ContentMarkdownRule extends ContentRule
+class ContentMarkdownRule extends BaseRule
 {
-    public static function rule(): string
-    {
-        return 'markdown';
-    }
-
-    protected static function method(): string
-    {
-        return 'markdown';
-    }
+    public static function rule():   string { return 'markdown'; }
+    public static function method(): string { return 'markdown'; }
 }

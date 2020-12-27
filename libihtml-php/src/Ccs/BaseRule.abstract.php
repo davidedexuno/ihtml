@@ -34,17 +34,24 @@ abstract class BaseRule
     {
         $constants = static::constants();
 
-        if (!isset($constants[ $value ])) {
+        if ($value instanceof \Sabberworm\CSS\Value\CSSString) {
+            return $value->getString();
+        } elseif (is_string($value) && isset($constants[ $value ])) {
+            return $constants[ $value ];
+        } else {
             throw new Exception("Value $value is not defined.");
         }
-        
-        return $constants[ $value ];
     }
     
-    protected static function constants(): array
+    public static function constants(): array
     {
-        return [];
+        return [
+            'display' => \iHTML\Document\Modifiers\BaseModifier::DISPLAY,
+            'content' => \iHTML\Document\Modifiers\BaseModifier::CONTENT,
+            'none'    => \iHTML\Document\Modifiers\BaseModifier::NONE,
+            'inherit' => \iHTML\Document\Modifiers\BaseModifier::INHERIT,
+        ];
     }
     
-    abstract protected static function method(): string;
+    abstract public static function method(): string;
 }

@@ -2,17 +2,8 @@
 
 namespace iHTML\Ccs\Rules;
 
-require_once dirname(__FILE__).'/IncrementalRule.abstract.php';
-
-class DisplayRule extends IncrementalRule
+class DisplayRule extends BaseRule
 {
-    public static function rule(): string
-    {
-        return 'display';
-    }
-
-    protected static function method(): string
-    {
-        return 'display';
-    }
+    public static function rule():   string { return 'display'; }
+    public static function method(): string { return 'display'; }
 }

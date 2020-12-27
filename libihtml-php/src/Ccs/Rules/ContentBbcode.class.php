@@ -2,17 +2,8 @@
 
 namespace iHTML\Ccs\Rules;
 
-require_once dirname(__FILE__).'/Content.class.php';
-
-class ContentBbcodeRule extends ContentRule
+class ContentBbcodeRule extends BaseRule
 {
-    public static function rule(): string
-    {
-        return 'bbcode';
-    }
-
-    protected static function method(): string
-    {
-        return 'bbcode';
-    }
+    public static function rule():   string { return 'bbcode'; }
+    public static function method(): string { return 'bbcode'; }
 }
