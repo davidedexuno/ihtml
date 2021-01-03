@@ -7,7 +7,7 @@ require __DIR__.'/../libihtml-php/libihtml.php';
 use Ulrichsg\Getopt\Getopt;
 use Ulrichsg\Getopt\Option;
 
-($getopt = new Getopt('r:o:p:s::t:'))->parse();
+($getopt = new Getopt('r:o:p:s::t:d:i:'))->parse();
 $options  = $getopt->getOptions();
 $operands = $getopt->getOperands();
 if (isset($options['s'])) {
@@ -49,8 +49,8 @@ if (isset($options['s'])) {
 } elseif (isset($options['p'])) {
     $project = $options['p'] ?? __DIR__;
     $output = $options['o'] ?? '.';
-    $pr = new iHTML\Project\Project($project);
-    $pr->render($output, $options['i'] ?? null);
+    $pr = new iHTML\Project\Project(dir($project));
+    $pr->render(new SplFileInfo(working_dir(getcwd(), $output)), $options['i'] ?? null);
 } elseif (isset($operands[0]) && isset($operands[1])) {
     $document = new iHTML\Document\Document($operands[0]);
     $ccs = new iHTML\Ccs\Ccs();
@@ -59,13 +59,13 @@ if (isset($options['s'])) {
     $document->render($options['o'] ?? STDOUT, $options['i'] ?? null);
     $document = new iHTML\Document\Document($operands[0]);
     $ccs = new iHTML\Ccs\Ccs();
-    $ccs->setContent($options['r'], $options['d'] ?? getcwd());
+    $ccs->setCode($options['r'], $options['d'] ?? getcwd());
     $ccs->applyTo($document);
     $document->render($options['o'] ?? STDOUT, $options['i'] ?? null);
 } elseif (isset($operands[0])) {
     $document = new iHTML\Document\Document($operands[0]);
     $ccs = new iHTML\Ccs\Ccs();
-    $ccs->setContent(file_get_contents('php://stdin'), $options['d'] ?? getcwd());
+    $ccs->setCode(file_get_contents('php://stdin'), $options['d'] ?? getcwd());
     $ccs->applyTo($document);
     $document->render($options['o'] ?? STDOUT, $options['i'] ?? null);
 } else {

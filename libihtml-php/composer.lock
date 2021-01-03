@@ -4,8 +4,54 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d248d6204610e3ae6fa9542ccd9c942e",
+    "content-hash": "2725be150122bfc01340bd2b7f1fe3b3",
     "packages": [
+        {
+            "name": "danog/class-finder",
+            "version": "0.4.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danog/class-finder.git",
+                "reference": "c3228b8fd32c4b536f172b94b60f3f0e14141aa3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danog/class-finder/zipball/c3228b8fd32c4b536f172b94b60f3f0e14141aa3",
+                "reference": "c3228b8fd32c4b536f172b94b60f3f0e14141aa3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "4.8.36"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "danog\\ClassFinder\\": "src/",
+                    "danog\\ClassFinder\\UnitTest\\": "test/unit"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hayden Pierce",
+                    "email": "hayden@haydenpierce.com"
+                },
+                {
+                    "name": "Daniil Gentili",
+                    "email": "daniil@daniil.it"
+                }
+            ],
+            "description": "Fork of haydenpierce/class-finder with support for traits, interfaces and functions",
+            "time": "2020-10-15T16:26:17+00:00"
+        },
         {
             "name": "erusev/parsedown",
             "version": "1.7.4",
