@@ -196,7 +196,8 @@ See examples/ for other examples.
 * add `code` rule support
 * support for border, margin, padding, wikitext
 * add support for rule `attributes: A B, C D`
-* add SASS/SCSS example
+* add **SASS/SCSS** example
+* add **PurgeCSS** integration
 * add ld+json navigation support
 * add url parts support (link[href], script[src], a[href], img[src], source[src], video[poster] and other URI attributes - https://www.w3.org/TR/2017/REC-html52-20171214/fullindex.html#attributes-table)
 * add `[srcset]` support
