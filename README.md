@@ -3,6 +3,11 @@ iHTML - incremental HTML
 
 A very experimental template engine (written in php so far)
 
+## Functionalities
+* Template engine
+* StaticGen (See [JAMStack](https://jamstack.org/))
+* Server
+
 ## Advantages
 * One language for everything (se `use cases` below)
 * consistency with the rest of environment - one language everywhere, JAVASCRIPT, CSS AND HERE
@@ -29,10 +34,8 @@ and again
 * **SASS/SCSS**, to structure your code
 * **PurgeCSS**, to Purge unused content modifications
 
-## Functionalities
-* Template engine
-* StaticGen (See [JAMStack](https://jamstack.org/))
-* Server
+## Getting started
+TODO
 
 ## TODO
 * functionalities
