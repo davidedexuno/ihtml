@@ -15,7 +15,7 @@ A very experimental template engine (written in php so far)
 * Layout TOTALLY separated from code, a designer can manage the final html file
 * No need to prepare an HTML for integration
 * No need to prepare HTML for new block - inheritance is EVERYWHERE, customizability is EVERYWHERE
-* Better HTML files, more readable. "Lorem ipsum" is the way.
+* Better HTML files, more readable. *"Lorem ipsum" is the way*.
 
 ## Use cases
 * HTML Inheritance
