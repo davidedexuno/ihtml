@@ -12,6 +12,7 @@
     "require": {
         "danog/class-finder": "^0.4.8",
         "erusev/parsedown": "^1.7",
+        "friendsofphp/php-cs-fixer": "^2.18",
         "jbbcode/jbbcode": "^1.4",
         "masterminds/html5": "^2.7",
         "react/http": "^1.3",
