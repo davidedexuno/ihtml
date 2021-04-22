@@ -19,7 +19,7 @@
         "subjective-php/spl-types": "^3.0",
         "danog/class-finder": "^0.4.8",
 
-        "ulrichsg/getopt-php": "^2.3",
+        "ulrichsg/getopt-php": "^3.4",
         "react/http": "^0.8.7",
         "react/react": "^1.0"
     }
