@@ -1,8 +1,4 @@
-if [ ! -f "/tmp/php-cs-fixer" ]; then
-	wget https://cs.symfony.com/download/php-cs-fixer-v2.phar -O /tmp/php-cs-fixer
-	chmod +x /tmp/php-cs-fixer
-fi
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-/tmp/php-cs-fixer fix $DIR/ihtml-php
-/tmp/php-cs-fixer fix $DIR/libihtml-php
+vendor/bin/php-cs-fixer fix ihtml
+vendor/bin/php-cs-fixer fix src
+vendor/bin/php-cs-fixer fix libihtml.php
 
