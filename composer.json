@@ -1,5 +1,14 @@
 {
     "name": "davidedexuno/ihtml-php",
+    "description": "",
+    "license": "",
+    "authors": [
+        {
+            "name": "Davide Del Medico",
+            "email": "davide.dexuno@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
     "require": {
         "sabberworm/php-css-parser": "*",
         "symfony/dom-crawler": "^3.1",
