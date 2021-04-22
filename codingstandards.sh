@@ -5,6 +5,4 @@ fi
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 /tmp/php-cs-fixer fix $DIR/ihtml-php
 /tmp/php-cs-fixer fix $DIR/libihtml-php
-npx standard --fix ihtml-node/ihtml
-npx standard --fix libihtml-node
 

@@ -1,7 +1,0 @@
-{
-    "require": {
-        "ulrichsg/getopt-php": "^2.3",
-        "react/http": "^0.8.7",
-        "react/react": "^1.0"
-    }
-}
