@@ -1,4 +1,5 @@
 {
+    "name": "davidedexuno/ihtml-php",
     "require": {
         "sabberworm/php-css-parser": "*",
         "symfony/dom-crawler": "^3.1",
