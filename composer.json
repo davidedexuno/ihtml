@@ -1,7 +1,7 @@
 {
     "name": "davidedexuno/ihtml-php",
     "description": "",
-    "license": "",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Davide Del Medico",
@@ -9,6 +9,9 @@
         }
     ],
     "minimum-stability": "stable",
+    "bin": [
+        "ihtml"
+    ],
     "require": {
         "danog/class-finder": "^0.4.8",
         "erusev/parsedown": "^1.7",
