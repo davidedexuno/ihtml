@@ -2,12 +2,12 @@
 <?php
 
 require __DIR__.'/vendor/autoload.php';
-require __DIR__.'/../libihtml-php/libihtml.php';
+require __DIR__.'/libihtml.php';
 
-use Ulrichsg\Getopt\Getopt;
-use Ulrichsg\Getopt\Option;
+use GetOpt\GetOpt;
+use GetOpt\Option;
 
-($getopt = new Getopt('r:o:p:s::t:d:i:'))->parse();
+($getopt = new GetOpt('r:o:p:s::t:d:i:'))->parse();
 $options  = $getopt->getOptions();
 $operands = $getopt->getOperands();
 if (isset($options['s'])) {
