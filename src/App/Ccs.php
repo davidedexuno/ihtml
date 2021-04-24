@@ -4,9 +4,9 @@
 namespace iHTML\Ccs;
 
 use iHTML\Document\Document;
-use iHTML\Document\QueryAttr;
-use iHTML\Document\QueryClass;
-use iHTML\Document\QueryStyle;
+use iHTML\Document\DocumentQueryAttr;
+use iHTML\Document\DocumentQueryClass;
+use iHTML\Document\DocumentQueryStyle;
 use Exception;
 use SplFileObject;
 use Directory;
@@ -70,16 +70,16 @@ abstract class CcsHandler
                         $ruleSubj = $ruleComponents->name;
                         switch ($ruleType) {
                             case 'node':
-                                $this->rules[ $ruleName ]::exec($query, $rule->value);
+                                $this->rules[ $ruleName ]::exec($query, $rule->values, $rule->content);
                             break;
                             case 'attr':
-                                $this->attrRules[ $ruleName ]($query, $ruleSubj, $rule->value);
+                                $this->attrRules[ $ruleName ]($query, $ruleSubj, $rule->values, $rule->content);
                             break;
                             case 'style':
-                                $this->styleRules[ $ruleName ]($query, $ruleSubj, $rule->value);
+                                $this->styleRules[ $ruleName ]($query, $ruleSubj, $rule->values, $rule->content);
                             break;
                             case 'class':
-                                $this->classRules[ $ruleName ]($query, $ruleSubj, $rule->value);
+                                $this->classRules[ $ruleName ]($query, $ruleSubj, $rule->values, $rule->content);
                             break;
                             default:
                                 throw new Exception("Rule type {$ruleType} not defined.");
@@ -126,22 +126,25 @@ abstract class CcsHandler
 
     private function loadRules()
     {
-        $this->rules = array_reduce(getClassesInNamespace('iHTML\Ccs\Rules'), function($acc, $rule) { $acc[ $rule::rule() ] = $rule; return $acc; }, []);
+        $this->rules = array_reduce(getClassesInNamespace('iHTML\Ccs\Rules'), function ($acc, $rule) {
+            $acc[ $rule::rule() ] = $rule;
+            return $acc;
+        }, []);
     }
 
     private function loadAttrRules()
     {
         $this->attrRules = [
-            'content' => function ($query, $name, $values) {
+            'content' => function ($query, $name, $values, $content) {
                 $values = $this->solveValues($values);
                 $query->attr($name)->content(...$values);
             },
-            'display' => function ($query, $name, $values) {
+            'display' => function ($query, $name, $values, $content) {
                 $values = $this->solveValues($values);
                 $query->attr($name)->display(...$values);
             },
-            'visibility' => function ($query, $name, $values) {
-                $values = $this->solveValues($values, ['visible' => QueryAttr::VISIBLE, 'hidden' => QueryAttr::HIDDEN]);
+            'visibility' => function ($query, $name, $values, $content) {
+                $values = $this->solveValues($values, ['visible' => DocumentQueryAttr::VISIBLE, 'hidden' => DocumentQueryAttr::HIDDEN]);
                 $query->attr($name)->visibility(...$values);
             },
             // 'white-space' =>
@@ -151,19 +154,19 @@ abstract class CcsHandler
     private function loadStyleRules()
     {
         $this->styleRules = [
-            'content' => function ($query, $name, $values, $value) {
+            'content' => function ($query, $name, $values, $content) {
                 $values = $this->solveValues($values);
                 $query->style($name)->content(...$values);
             },
-            'literal' => function ($query, $name, $values, $value) {
-                $query->style($name)->content((string)$value);
+            'literal' => function ($query, $name, $values, $content) {
+                $query->style($name)->content($content);
             },
-            'display' => function ($query, $name, $values, $value) {
-                $values = $this->solveValues($values, ['none' => QueryStyle::NONE]);
+            'display' => function ($query, $name, $values, $content) {
+                $values = $this->solveValues($values, ['none' => DocumentQueryStyle::NONE]);
                 $query->style($name)->display(...$values);
             },
-            'visibility' => function ($query, $name, $values, $value) {
-                $values = $this->solveValues($values, ['visible' => QueryStyle::VISIBLE, 'hidden' => QueryStyle::HIDDEN]);
+            'visibility' => function ($query, $name, $values, $content) {
+                $values = $this->solveValues($values, ['visible' => DocumentQueryStyle::VISIBLE, 'hidden' => DocumentQueryStyle::HIDDEN]);
                 $query->style($name)->visibility(...$values);
             },
             // 'white-space' =>
@@ -173,8 +176,8 @@ abstract class CcsHandler
     private function loadClassRules()
     {
         $this->classRules = [
-            'visibility' => function ($query, $name, $values) {
-                $values = $this->solveValues($values, ['visible' => QueryClass::VISIBLE, 'hidden' => QueryClass::HIDDEN]);
+            'visibility' => function ($query, $name, $values, $content) {
+                $values = $this->solveValues($values, ['visible' => DocumentQueryClass::VISIBLE, 'hidden' => DocumentQueryClass::HIDDEN]);
                 $query->className($name)->visibility(...$values);
             },
             // 'white-space' =>

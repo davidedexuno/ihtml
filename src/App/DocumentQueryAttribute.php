@@ -8,7 +8,7 @@ use Exception;
 class DocumentQueryAttribute
 {
     private Crawler $nodelist;
-    private Query $query;
+    private DocumentQuery $query;
     private string $name;
 
     // TODO:
@@ -20,7 +20,7 @@ class DocumentQueryAttribute
     // const HIDDEN  = 2007;
     // function visibility($value)
 
-    public function __construct(Query $query, Crawler $nodelist, string $name)
+    public function __construct(DocumentQuery $query, Crawler $nodelist, string $name)
     {
         $this->query    = $query;
         $this->nodelist = $nodelist;

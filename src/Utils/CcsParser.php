@@ -37,30 +37,26 @@ class CcsParser
                     continue;
                 }
                 // selectors_weight(...$oContent->getSelectors()); // TODO
-                $rules = array_map(function ($oRule) use ($root) {
-                    $name = $oRule->getRule();
-                    $value = $oRule->getValue();
-                    $valueList = $value instanceof CSS\Value\RuleValueList ? $value->getListComponents() : [$value];
-                    foreach ($valueList as $valueElem) {
-                        if ($valueElem instanceof CSS\Value\URL) {
-                            $valueElem = new CSS\Value\CSSString(file_get_contents(working_dir($root->path, $valueElem->getURL()->getString())));
-                        }
-                        // else if var(--something)
+
+                $rules = array_map(fn ($oRule) => new class($oRule, $root) {
+                    public function __construct($oRule, $root)
+                    {
+                        $this->name    = $oRule->getRule();
+                        $this->content = (string)$oRule->getValue();
+                        $this->values  = $oRule->getValue() instanceof CSS\Value\RuleValueList ? $oRule->getValue()->getListComponents() : [ $oRule->getValue() ];
+                        $this->values = array_map(
+                            fn ($v) =>
+                                $v instanceof CSS\Value\URL ? new CSS\Value\CSSString(file_get_contents(working_dir($root->path, $v->getURL()->getString()))) :
+                                // var(--something) ? ... :
+                                $v,
+                            $this->values
+                        );
                     }
-                    if ($value instanceof CSS\Value\RuleValueList) {
-                    } else {
-                        $value = $valueList[0];
-                    }
-                    return new class($name, $value) {
-                        public $name;
-                        public $value;
-                        public function __construct($name, $value)
-                        {
-                            $this->name  = $name;
-                            $this->value = $value;
-                        }
-                    };
+                    public string $name;
+                    public string $content;
+                    public array $values;
                 }, $oContent->getRules());
+
                 ($this->onSelectorEvent)(implode(',', $oContent->getSelectors()), $rules);
             } else {
                 throw new Exception('Unexpected CSS element');

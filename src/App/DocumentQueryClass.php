@@ -7,13 +7,13 @@ use Symfony\Component\DomCrawler\Crawler;
 class DocumentQueryClass
 {
     private Crawler $nodelist;
-    private Query $query;
+    private DocumentQuery $query;
     private string $name;
 
     const VISIBLE = 3001;
     const HIDDEN  = 3002;
 
-    public function __construct(Query $query, Crawler $nodelist, string $name)
+    public function __construct(DocumentQuery $query, Crawler $nodelist, string $name)
     {
         $this->query    = $query;
         $this->nodelist = $nodelist;
