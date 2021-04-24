@@ -5,7 +5,6 @@ namespace iHTML\Ccs;
 use Exception;
 use iHTML\Document\DocumentModifier;
 
-
 abstract class CcsRule
 {
 
@@ -30,12 +29,14 @@ abstract class CcsRule
     {
         $method = static::method();
         
-        $values = array_map(fn($value) =>
+        $values = array_map(fn ($value) =>
             $value instanceof \Sabberworm\CSS\Value\CSSString         ? $value->getString() : (
-            is_string($value) && isset(static::constants()[ $value ]) ? static::constants()[ $value ] : (
-            (function() { throw new Exception("Value $value is not defined."); })()
-            ))
-        , $values);
+                is_string($value) && isset(static::constants()[ $value ]) ? static::constants()[ $value ] : (
+                (function () {
+                throw new Exception("Value $value is not defined.");
+            })()
+            )
+            ), $values);
 
         $query->$method(...$values);
     }
