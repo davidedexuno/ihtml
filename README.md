@@ -3,6 +3,13 @@ iHTML - incremental HTML
 
 A very experimental template engine (written in php so far)
 
+## Installation
+
+```sudo curl -JL https://clue.engineering/phar-composer-latest.phar -o /usr/local/bin/phar-composer
+
+sudo phar-composer build https://github.com/davidedexuno/ihtml-php.git:dev-master /usr/local/bin/ihtml
+```
+
 ## Functionalities
 * Template engine
 * StaticGen (See [JAMStack](https://jamstack.org/))
