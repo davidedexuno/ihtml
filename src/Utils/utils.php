@@ -4,7 +4,9 @@
 function htmlToDOM($html, $doc)
 {
     $html = '<div id="html-to-dom-input-wrapper">' . $html . '</div>';
+    $libxml_use_internal_errors = libxml_use_internal_errors(true);
     $hdoc = DOMDocument::loadHTML($html);
+    libxml_use_internal_errors($libxml_use_internal_errors);
     $child_array = array();
     try {
         $children = $hdoc->getElementById('html-to-dom-input-wrapper')->childNodes;
