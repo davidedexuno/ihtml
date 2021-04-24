@@ -26,34 +26,17 @@ abstract class CcsRule
         ];
     }
 
-    public static function exec($query, $value)
+    public static function exec($query, $values)
     {
-        $query->{ static::method() }(...static::solveValues($value));
-    }
+        $method = static::method();
+        
+        $values = array_map(fn($value) =>
+            $value instanceof \Sabberworm\CSS\Value\CSSString         ? $value->getString() : (
+            is_string($value) && isset(static::constants()[ $value ]) ? static::constants()[ $value ] : (
+            (function() { throw new Exception("Value $value is not defined."); })()
+            ))
+        , $values);
 
-    protected static function solveValues($ruleValue/*, $dir*/)
-    {
-        $ruleValueList = $ruleValue instanceof \Sabberworm\CSS\Value\RuleValueList ? $ruleValue->getListComponents() : [ $ruleValue ];
-        $ruleValueList = array_map(function ($element) {
-            return $element;
-        }, $ruleValueList);
-        $ruleValueList = array_map(function ($value)/* use ($dir)*/ {
-            return static::solveValue($value/*, $dir*/);
-        }, $ruleValueList);
-    
-        return $ruleValueList;
-    }
-
-    protected static function solveValue($value/*, $dir*/)
-    {
-        $constants = static::constants();
-
-        if ($value instanceof \Sabberworm\CSS\Value\CSSString) {
-            return $value->getString();
-        } elseif (is_string($value) && isset($constants[ $value ])) {
-            return $constants[ $value ];
-        } else {
-            throw new Exception("Value $value is not defined.");
-        }
+        $query->$method(...$values);
     }
 }
