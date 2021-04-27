@@ -9,12 +9,13 @@ use SplFileInfo;
 use SplFileObject;
 use Directory;
 use IhtmlFile;
+use Illuminate\Support\Collection;
 
 class Project
 {
     private $root;
 
-    private $project;
+    private Collection $project;
 
     public function __construct(Directory $project)
     {
@@ -22,12 +23,28 @@ class Project
         if (!file_exists("{$this->root}/project.json")) {
             throw new Exception("Project file {$this->root}/project.json not found.");
         }
-        $this->project = json_decode(file_get_contents("{$this->root}/project.json"));
-        if (!is_object($this->project)) {
+        $project = json_decode(file_get_contents("{$this->root}/project.json"));
+        if (!is_object($project)) {
             throw new Exception("Malformed project file {$this->root}/project.json.");
         }
+        $this->project = collect($project)
+                        ->map(
+                            fn ($a, $output) =>
+                            (object)[
+                                'document'  => new Document(new SplFileObject(working_dir($this->root, $a[0]))),
+                                'ccs'       => new CcsFile(new SplFileObject(working_dir($this->root, $a[1]))),
+                                'html'      => $a[0],
+                                'apply'     => $a[1],
+                                'output'    => $output,
+                            ]
+                        );
     }
     
+    public function get()
+    {
+        return $this->project;
+    }
+
     public function render(SplFileInfo $out_dir, string $index = null)
     {
         $this->createDir($out_dir);
@@ -38,17 +55,13 @@ class Project
             throw new Exception('Error creating output directory.');
         }
         // COMPILE ALL FILES
-        foreach ($this->project as $output => [$html, $apply]) {
-            $document = new Document(new SplFileObject(working_dir($this->root, $html)));
-            $ccs      = new CcsFile(new SplFileObject(working_dir($this->root, $apply)));
-            $ccs->applyTo($document);
-            $document->render();
-            if ($index) {
-                $document->save(new IhtmlFile(working_dir($out_dir, $output ?: './')), $index);
-            } else {
-                $document->save(new IhtmlFile(working_dir($out_dir, $output ?: './')));
+        $this->project->map(
+            function ($res) use ($out_dir, $index) {
+                $res->ccs->applyTo($res->document);
+                $res->document->render();
+                $res->document->save(new IhtmlFile(working_dir($out_dir, $res->output ?: './')), ...($index ? [ $index ] : [ ]));
             }
-        }
+        );
     }
     private function createDir(SplFileInfo $dir)
     {

@@ -25,6 +25,7 @@
         "subjective-php/spl-types": "^3.0",
         "symfony/css-selector": "^5.2",
         "symfony/dom-crawler": "^5.2",
-        "ulrichsg/getopt-php": "^3.4"
+        "ulrichsg/getopt-php": "^3.4",
+        "illuminate/support": "^8.38"
     }
 }
