@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/src/App/Document.php';
 require_once __DIR__ . '/src/App/DocumentModifier.php';
 foreach (glob(__DIR__ . '/src/App/Modifiers/*.class.php') as $modifierFile) {
