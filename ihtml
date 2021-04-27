@@ -14,7 +14,7 @@ if (isset($options['s'])) {
     $project = $options['p'] ?? __DIR__;
     $static = $options['t'] ?? __DIR__;
     $port = $options['s'] != 1 ? $options['s'] : 1337;
-    $project = new iHTML\Project\Project($project);
+    $project = new iHTML\Project\Project(dir($project));
     print 'Available paths:'."\n\n";
     foreach ($project->getTemplates() as $template) {
         print "  http://127.0.0.1:{$port}/{$template->output}\n";
