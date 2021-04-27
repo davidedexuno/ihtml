@@ -16,30 +16,28 @@ if (isset($options['s'])) {
     $port = $options['s'] != 1 ? $options['s'] : 1337;
     $project = new iHTML\Project\Project(dir($project));
     print 'Available paths:'."\n\n";
-    foreach ($project->getTemplates() as $template) {
-        print "  http://127.0.0.1:{$port}/{$template->output}\n";
-    }
+    $project->get()->map(function ($resource) use ($port) {
+        print "  http://127.0.0.1:{$port}/{$resource->output}\n";
+    });
     print "\n--\n\n";
     $loop = React\EventLoop\Factory::create();
-    $server = new React\Http\Server(function (Psr\Http\Message\ServerRequestInterface $request) use ($project, $static, $port) {
-        if ($template = current(array_filter($project->getTemplates(), function ($template) use ($request) {
-            return '/'.$template->output == $request->getUri()->getPath();
-        })) ?? null) {
-            $document = new iHTML\Document\Document(working_dir($project->getRoot(), $template->html));
-            $ccs = new iHTML\Ccs\Ccs(working_dir($project->getRoot(), $template->apply));
-            $ccs->applyTo($document);
-            $body = $document->render(null, $options['i'] ?? null);
+    $server = new React\Http\Server($loop, function (Psr\Http\Message\ServerRequestInterface $request) use ($project, $static, $port, $options) {
+        if ($resource = $project->get()->first(function ($res) use ($request) {
+            return '/'.$res->output === $request->getUri()->getPath();
+        })) {
+            $resource->ccs->applyTo($resource->document);
+            $body = $resource->document->render(null, $options['i'] ?? null)->get();
             print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
-            return new React\Http\Response(200, ['Content-Type' => 'text/html'], $body);
+            return new React\Http\Message\Response(200, ['Content-Type' => 'text/html'], $body);
         }
 
         if (file_exists($static.'/'.$request->getUri()->getPath())) {
             print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
-            return new React\Http\Response(200, ['Content-Type' => getMimetype($static.'/'.$request->getUri()->getPath())], file_get_contents($static.'/'.$request->getUri()->getPath()));
+            return new React\Http\Message\Response(200, ['Content-Type' => getMimetype($static.'/'.$request->getUri()->getPath())], file_get_contents($static.'/'.$request->getUri()->getPath()));
         }
 
         print "Rendered http://127.0.0.1:{$port}{$request->getUri()->getPath()}\n";
-        return new React\Http\Response(404, ['Content-Type' => 'text/plain'], "404 - Page not found\n");
+        return new React\Http\Message\Response(404, ['Content-Type' => 'text/plain'], "404 - Page not found\n");
     });
     print 'Server loaded.'.PHP_EOL;
     $socket = new React\Socket\Server($port, $loop);
