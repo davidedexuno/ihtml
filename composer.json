@@ -26,6 +26,7 @@
         "symfony/css-selector": "^5.2",
         "symfony/dom-crawler": "^5.2",
         "ulrichsg/getopt-php": "^3.4",
-        "illuminate/support": "^8.38"
+        "illuminate/support": "^8.38",
+        "symfony/yaml": "^5.2"
     }
 }

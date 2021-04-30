@@ -20,12 +20,12 @@ class Project
     public function __construct(Directory $project)
     {
         $this->root = $project->path;
-        if (!file_exists("{$this->root}/project.json")) {
-            throw new Exception("Project file {$this->root}/project.json not found.");
+        if (!file_exists("{$this->root}/project.yaml")) {
+            throw new Exception("Project file {$this->root}/project.yaml not found.");
         }
-        $project = json_decode(file_get_contents("{$this->root}/project.json"));
+        $project = Yaml::parseFile("{$this->root}/project.yaml");
         if (!is_object($project)) {
-            throw new Exception("Malformed project file {$this->root}/project.json.");
+            throw new Exception("Malformed project file {$this->root}/project.yaml.");
         }
         $this->project = collect($project)
                         ->map(
