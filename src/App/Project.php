@@ -10,6 +10,7 @@ use SplFileObject;
 use Directory;
 use IhtmlFile;
 use Illuminate\Support\Collection;
+use Symfony\Component\Yaml\Yaml;
 
 class Project
 {
