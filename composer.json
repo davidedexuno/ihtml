@@ -27,6 +27,15 @@
         "symfony/dom-crawler": "^5.2",
         "ulrichsg/getopt-php": "^3.4",
         "illuminate/support": "^8.38",
-        "symfony/yaml": "^5.2"
+        "symfony/yaml": "^5.2",
+        "webmozart/path-util": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "iHTML\\": "src/"
+        },
+        "files": [
+            "libihtml.php"
+        ]
     }
 }
