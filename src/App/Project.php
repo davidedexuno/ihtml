@@ -25,7 +25,7 @@ class Project
             throw new Exception("Project file {$this->root}/project.yaml not found.");
         }
         $project = Yaml::parseFile("{$this->root}/project.yaml");
-        if (!is_object($project)) {
+        if (!is_array($project)) {
             throw new Exception("Malformed project file {$this->root}/project.yaml.");
         }
         $this->project = collect($project)
