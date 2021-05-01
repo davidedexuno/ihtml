@@ -13,28 +13,6 @@ use Directory;
 use danog\ClassFinder\ClassFinder;
 use CcsRuleDecoder;
 
-class CcsFile extends CcsHandler
-{
-    public function __construct(SplFileObject $file)
-    {
-        parent::__construct();
-        $this->code = $file->fread($file->getSize() + 1);
-        $this->root = dir($file->getPath());
-    }
-}
-
-
-class CcsChunk extends CcsHandler
-{
-    public function __construct(string $code, Directory $root)
-    {
-        parent::__construct();
-        $this->code = $code;
-        $this->root = $root;
-    }
-}
-
-
 abstract class CcsHandler
 {
     protected string $code;
