@@ -1,5 +1,7 @@
 <?php
 
+namespace iHTML\Ccs;
+
 class CcsRuleDecoder
 {
     const CSS_RULES = ['align-content', 'align-items', 'align-self', 'all', 'animation', 'animation-delay', 'animation-direction', 'animation-duration', 'animation-fill-mode',

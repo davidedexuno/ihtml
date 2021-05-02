@@ -8,9 +8,10 @@ use Exception;
 use SplFileInfo;
 use SplFileObject;
 use Directory;
-use IhtmlFile;
+use iHTML\Messages\IhtmlFile;
 use Illuminate\Support\Collection;
 use Symfony\Component\Yaml\Yaml;
+use Webmozart\PathUtil\Path;
 
 class Project
 {
@@ -20,20 +21,20 @@ class Project
 
     public function __construct(Directory $project)
     {
-        $this->root = $project->path;
+        $this->root = Path::makeAbsolute($project->path, getcwd());
         if (!file_exists("{$this->root}/project.yaml")) {
             throw new Exception("Project file {$this->root}/project.yaml not found.");
         }
-        $project = Yaml::parseFile("{$this->root}/project.yaml");
-        if (!is_array($project)) {
+        $project = (object)Yaml::parseFile("{$this->root}/project.yaml");
+        if (!is_object($project)) {
             throw new Exception("Malformed project file {$this->root}/project.yaml.");
         }
         $this->project = collect($project)
                         ->map(
                             fn ($a, $output) =>
                             (object)[
-                                'document'  => new Document(new SplFileObject(working_dir($this->root, $a[0]))),
-                                'ccs'       => new CcsFile(new SplFileObject(working_dir($this->root, $a[1]))),
+                                'document'  => new Document(new SplFileObject(Path::makeAbsolute($a[0], $this->root))),
+                                'ccs'       => new CcsFile(new SplFileObject(Path::makeAbsolute($a[1], $this->root))),
                                 'html'      => $a[0],
                                 'apply'     => $a[1],
                                 'output'    => $output,
@@ -60,7 +61,7 @@ class Project
             function ($res) use ($out_dir, $index) {
                 $res->ccs->applyTo($res->document);
                 $res->document->render();
-                $res->document->save(new IhtmlFile(working_dir($out_dir, $res->output ?: './')), ...($index ? [ $index ] : [ ]));
+                $res->document->save(new IhtmlFile(Path::makeAbsolute($res->output ?: './', (string)$out_dir)), ...($index ? [ $index ] : [ ]));
             }
         );
     }

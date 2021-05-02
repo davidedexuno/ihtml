@@ -6,6 +6,7 @@ namespace iHTML\Ccs;
 use Sabberworm\CSS;
 use Exception;
 use Closure;
+use Webmozart\PathUtil\Path;
 
 class CcsParser
 {
@@ -46,7 +47,7 @@ class CcsParser
                         $this->values  = $oRule->getValue() instanceof CSS\Value\RuleValueList ? $oRule->getValue()->getListComponents() : [ $oRule->getValue() ];
                         $this->values = array_map(
                             fn ($v) =>
-                                $v instanceof CSS\Value\URL ? new CSS\Value\CSSString(file_get_contents(working_dir($root->path, $v->getURL()->getString()))) :
+                                $v instanceof CSS\Value\URL ? new CSS\Value\CSSString(file_get_contents(Path::makeAbsolute($v->getURL()->getString(), $root->path))) :
                                 // var(--something) ? ... :
                                 $v,
                             $this->values

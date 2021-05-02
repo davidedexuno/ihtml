@@ -5,6 +5,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use GetOpt\GetOpt;
 use GetOpt\Option;
+use Webmozart\PathUtil\Path;
 
 ($getopt = new GetOpt('r:o:p:s::t:d:i:'))->parse();
 $options  = $getopt->getOptions();
@@ -47,7 +48,7 @@ if (isset($options['s'])) {
     $project = $options['p'] ?? __DIR__;
     $output = $options['o'] ?? '.';
     $pr = new iHTML\Project\Project(dir($project));
-    $pr->render(new SplFileInfo(working_dir(getcwd(), $output)), $options['i'] ?? null);
+    $pr->render(new SplFileInfo(Path::makeAbsolute($output, getcwd())), $options['i'] ?? null);
 } elseif (isset($operands[0]) && isset($operands[1])) {
     $document = new iHTML\Document\Document($operands[0]);
     $ccs = new iHTML\Ccs\Ccs();

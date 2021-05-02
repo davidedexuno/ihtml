@@ -11,7 +11,7 @@ use Exception;
 use SplFileObject;
 use Directory;
 use danog\ClassFinder\ClassFinder;
-use CcsRuleDecoder;
+use Webmozart\PathUtil\Path;
 
 abstract class CcsHandler
 {
@@ -48,7 +48,7 @@ abstract class CcsHandler
                         $ruleSubj = $ruleComponents->name;
                         switch ($ruleType) {
                             case 'node':
-                                $this->rules[ $ruleName ]::exec($query, $rule->values, $rule->content);
+                                ('\\iHTML\\Ccs\\Rules\\'.$this->rules[ $ruleName ])::exec($query, $rule->values, $rule->content);
                             break;
                             case 'attr':
                                 $this->attrRules[ $ruleName ]($query, $ruleSubj, $rule->values, $rule->content);
@@ -66,7 +66,7 @@ abstract class CcsHandler
                     }
                 })
                 ->setOnImport(function (string $file) use ($document) {
-                    $ccs = new CcsFile(new SplFileObject(working_dir($this->root->path, $file)));
+                    $ccs = new CcsFile(new SplFileObject(Path::makeAbsolute($file, $this->root->path)));
                     $ccs->applyTo($document);
                 })
                 ->parse($this->code, $this->root);
@@ -104,10 +104,14 @@ abstract class CcsHandler
 
     private function loadRules()
     {
-        $this->rules = array_reduce(getClassesInNamespace('iHTML\Ccs\Rules'), function ($acc, $rule) {
-            $acc[ $rule::rule() ] = $rule;
-            return $acc;
-        }, []);
+        $this->rules =
+            // scans rules directory
+            collect( scandir( __DIR__.'/Rules') )
+            ->diff( ['.', '..'] )
+            // gets class name from filename
+            ->map( fn ($file) => Path::getFilenameWithoutExtension($file) )
+            // maps in form of [ rule name => class ]
+            ->mapWithKeys( fn ($rule) => [ ('\\iHTML\\Ccs\\Rules\\'.$rule)::rule() => $rule ] );
     }
 
     private function loadAttrRules()

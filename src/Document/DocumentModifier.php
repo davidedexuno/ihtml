@@ -3,6 +3,7 @@
 namespace iHTML\Document;
 
 use Symfony\Component\DomCrawler\Crawler;
+use DOMDocument;
 
 abstract class DocumentModifier
 {
@@ -52,7 +53,7 @@ abstract class DocumentModifier
     {
         $fragment = $this->domdocument->createDocumentFragment();
         //$fragment->appendXML($content);
-        foreach (htmlToDOM($content, $this->domdocument) as $node) {
+        foreach ($this->htmlToDOM($content, $this->domdocument) as $node) {
             $fragment->appendChild($node);
         }
         return $fragment;
@@ -104,7 +105,7 @@ abstract class DocumentModifier
         // addElementToHierarchy
 
         // if exists, removes it
-        if (($key = array_usearch($element, $this->lates, function ($a, $b) {
+        if (($key = $this->array_usearch($element, $this->lates, function ($a, $b) {
             return $a->element === $b;
         })) !== false) {
             array_splice($this->lates, $key, 1);
@@ -132,7 +133,7 @@ abstract class DocumentModifier
         foreach ($oldLates as $oldLate) {
             // expand single element (apply to all children the prop)
             foreach (( new \Symfony\Component\DomCrawler\Crawler($oldLate->element) )->filter('*') as $childElement) {
-                if (($key = array_usearch($childElement, $this->lates, function ($a, $b) {
+                if (($key = $this->array_usearch($childElement, $this->lates, function ($a, $b) {
                     return $a->element === $b;
                 })) !== false) {
                     array_splice($this->lates, $key, 1);
@@ -141,6 +142,38 @@ abstract class DocumentModifier
                 $this->lates[] = new Late($childElement, $oldLate->attribute);
             }
         }
+    }
+
+    private function array_usearch($needle, array $haystack, callable $callback)
+    {
+        $res = array_filter($haystack, function ($var) use ($needle, $callback) {
+            return $callback($var, $needle);
+        });
+
+        if (count($res) == 0) {
+            return false;
+        }
+
+        return each($res)['key'];
+    }
+
+    private function htmlToDOM($html, $doc)
+    {
+        $html = '<div id="html-to-dom-input-wrapper">' . $html . '</div>';
+        $libxml_use_internal_errors = libxml_use_internal_errors(true);
+        $hdoc = DOMDocument::loadHTML($html);
+        libxml_use_internal_errors($libxml_use_internal_errors);
+        $child_array = array();
+        try {
+            $children = $hdoc->getElementById('html-to-dom-input-wrapper')->childNodes;
+            foreach ($children as $child) {
+                $child = $doc->importNode($child, true);
+                array_push($child_array, $child);
+            }
+        } catch (Exception $ex) {
+            error_log($ex->getMessage(), 0);
+        }
+        return $child_array;
     }
 }
 

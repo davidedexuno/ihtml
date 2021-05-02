@@ -10,7 +10,8 @@ use DOMDocument;
 use Symfony\Component\DomCrawler\Crawler;
 use SplFileInfo;
 use SplFileObject;
-use IhtmlFile;
+use iHTML\Messages\IhtmlFile;
+use Webmozart\PathUtil\Path;
 
 class Document
 {
@@ -23,7 +24,7 @@ class Document
         // LOAD INTERNAL CCS
         // <link rel="contentsheet" href="..."> ...
         foreach ($this('link[rel="contentsheet"][href]') as $result) {
-            $ccs = new Ccs(working_dir($html->getPath(), $result->getAttribute('href')));
+            $ccs = new Ccs(Path::makeAbsolute($result->getAttribute('href'), $html->getPath()));
             $ccs->applyTo($this);
             $result->parentNode->removeChild($result);
         }
@@ -83,16 +84,17 @@ class Document
 
     public function getModifier(string $modifier)
     {
-        if (!array_key_exists($modifier, $this->modifiers)) {
-            foreach (getClassesInNamespace('iHTML\Document\Modifiers') as $class) {
-                if ($class::queryMethod() === $modifier) {
-                    $this->modifiers[ $modifier ] = new $class($this->domdocument);
-                }
-            }
-        }
-        if (!array_key_exists($modifier, $this->modifiers)) {
+        // modifiersMap maps modifiers method with classes, in form of: [ method => class, ... ]
+        $modifiersMap =
+            collect( scandir( __DIR__.'/Modifiers') )
+            ->diff( ['.', '..'] )
+            ->map( fn ($file) => '\\iHTML\\Document\\Modifiers\\'.Path::getFilenameWithoutExtension($file) )
+            ->mapWithKeys( fn ($modifierClass) => [ $modifierClass::queryMethod() => $modifierClass ] );
+        if (!$modifiersMap->has($modifier)) {
             throw new Exception("Modifier $modifier doesn't exist");
         }
+        $modifierClass = $modifiersMap->get($modifier);
+        $this->modifiers[ $modifier ] = new $modifierClass($this->domdocument);
         return $this->modifiers[ $modifier ];
     }
 }
